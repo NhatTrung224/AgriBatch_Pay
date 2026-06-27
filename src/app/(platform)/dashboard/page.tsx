@@ -1,29 +1,16 @@
 import { ArrowSquareOut, Broadcast, Coins, CubeTransparent } from "@phosphor-icons/react/dist/ssr";
 
+import { MetricCard } from "@/components/metric-card";
+import { StatusBadge } from "@/components/status-badge";
 import { ButtonLink } from "@/components/ui/button-link";
+import { formatDisplayAmount, formatRelativeDate } from "@/lib/formatters";
+import { getDashboardSnapshot } from "@/features/dashboard/server";
 
-const previewStats = [
-  {
-    label: "Live vault coverage",
-    value: "87%",
-    icon: Coins,
-    detail: "Buyer funding and payout release readiness",
-  },
-  {
-    label: "Batch sync",
-    value: "12 open",
-    icon: CubeTransparent,
-    detail: "Cooperative lots waiting on approval states",
-  },
-  {
-    label: "Event stream",
-    value: "Realtime",
-    icon: Broadcast,
-    detail: "SSE feed wired for contract and app audit logs",
-  },
-];
+export const dynamic = "force-dynamic";
 
-export default function DashboardPreviewPage() {
+export default async function DashboardPage() {
+  const snapshot = await getDashboardSnapshot();
+
   return (
     <div className="space-y-8">
       <section className="panel overflow-hidden">
@@ -35,19 +22,18 @@ export default function DashboardPreviewPage() {
             </span>
             <div className="space-y-3">
               <h1 className="max-w-3xl font-display text-4xl tracking-[-0.05em] text-white lg:text-6xl">
-                Operating center for crop batches, vault funding, and auditable
-                payout release.
+                Operating center for crop batches, payout vaults, and realtime
+                settlement evidence.
               </h1>
               <p className="max-w-2xl text-sm leading-7 text-slate-300 lg:text-base">
-                The shell is now fixed around a shared sidebar, mobile
-                navigation, topbar telemetry, and composable panel system. The
-                next milestones will plug real batch data, wallet flows, and
-                Soroban actions into this frame.
+                Live metrics and recent activity now come directly from Neon.
+                The next passes will deepen wallet-backed actions and contract
+                interactions on top of these surfaces.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <ButtonLink href="/" variant="primary">
-                Review Landing Direction
+              <ButtonLink href="/batches/new" variant="primary">
+                Create Crop Batch
               </ButtonLink>
               <ButtonLink href="/submission" variant="ghost">
                 Submission Surface
@@ -55,28 +41,116 @@ export default function DashboardPreviewPage() {
             </div>
           </div>
           <div className="grid gap-4">
-            {previewStats.map(({ detail, icon: Icon, label, value }) => (
+            <MetricCard
+              label="Total batches"
+              value={String(snapshot.totalBatches)}
+              detail="Current batch records tracked in Neon"
+              icon={CubeTransparent}
+            />
+            <MetricCard
+              label="Funded batches"
+              value={String(snapshot.fundedBatches)}
+              detail="Vaults already funded by buyers"
+              icon={Coins}
+            />
+            <MetricCard
+              label="Settled batches"
+              value={String(snapshot.settledBatches)}
+              detail="Completed releases with auditable state transitions"
+              icon={ArrowSquareOut}
+            />
+            <MetricCard
+              label="Pending payouts"
+              value={String(snapshot.pendingPayouts)}
+              detail="Open flows awaiting quality or settlement release"
+              icon={Broadcast}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
+        <article className="panel px-5 py-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-[0.7rem] uppercase tracking-[0.22em] text-slate-500">
+                Recent batches
+              </p>
+              <h2 className="mt-3 font-display text-3xl tracking-[-0.05em] text-white">
+                Open settlement inventory
+              </h2>
+            </div>
+            <ButtonLink href="/batches" variant="ghost">
+              View all batches
+            </ButtonLink>
+          </div>
+          <div className="mt-6 overflow-x-auto rounded-[24px] border border-white/10 bg-white/3">
+            <table className="min-w-full text-left">
+              <thead>
+                <tr className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                  <th className="px-4 py-3 font-medium">Batch ID</th>
+                  <th className="px-4 py-3 font-medium">Crop</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 font-medium">Total</th>
+                  <th className="px-4 py-3 font-medium">Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {snapshot.allBatches.slice(0, 6).map((batch) => (
+                  <tr key={batch.id} className="border-t border-white/8 text-sm">
+                    <td className="px-4 py-3 text-slate-100">{batch.id}</td>
+                    <td className="px-4 py-3 text-slate-300">{batch.cropType}</td>
+                    <td className="px-4 py-3">
+                      <StatusBadge status={batch.status} />
+                    </td>
+                    <td className="px-4 py-3 text-slate-300">
+                      {formatDisplayAmount(batch.totalAmount)}
+                    </td>
+                    <td className="px-4 py-3 text-slate-500">
+                      {formatRelativeDate(batch.updatedAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article className="panel px-5 py-6 lg:px-8">
+          <p className="text-[0.7rem] uppercase tracking-[0.22em] text-slate-500">
+            Event pulse
+          </p>
+          <div className="mt-3 flex items-end justify-between gap-4">
+            <h2 className="font-display text-3xl tracking-[-0.05em] text-white">
+              Realtime activity
+            </h2>
+            <span className="rounded-full border border-cyan-300/18 bg-cyan-300/10 px-3 py-1 text-xs uppercase tracking-[0.18em] text-cyan-100">
+              SSE ready
+            </span>
+          </div>
+          <p className="mt-3 text-sm leading-7 text-slate-400">
+            Total payout volume: {formatDisplayAmount(snapshot.totalVolume)}
+          </p>
+          <div className="mt-6 space-y-3">
+            {snapshot.recentEvents.map((event) => (
               <article
-                key={label}
-                className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(16,25,22,0.95),rgba(9,14,13,0.92))] p-4 shadow-[0_24px_70px_rgba(3,10,8,0.35)]"
+                key={`${event.kind}-${event.id}`}
+                className="rounded-[20px] border border-white/10 bg-white/3 px-4 py-4"
               >
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="inline-flex size-11 items-center justify-center rounded-2xl border border-white/10 bg-white/6 text-emerald-200">
-                    <Icon size={20} weight="duotone" />
+                <div className="flex items-center justify-between gap-4">
+                  <span className="text-sm font-medium text-white">{event.label}</span>
+                  <span className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                    {event.kind}
                   </span>
-                  <ArrowSquareOut size={18} className="text-cyan-200/80" />
                 </div>
-                <p className="text-xs uppercase tracking-[0.22em] text-slate-500">
-                  {label}
+                <p className="mt-2 text-sm leading-6 text-slate-400">{event.message}</p>
+                <p className="mt-3 text-xs uppercase tracking-[0.18em] text-slate-500">
+                  {formatRelativeDate(event.createdAt)}
                 </p>
-                <p className="mt-3 font-display text-3xl tracking-[-0.04em] text-white">
-                  {value}
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-400">{detail}</p>
               </article>
             ))}
           </div>
-        </div>
+        </article>
       </section>
     </div>
   );
