@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { NetworkBadge } from "@/features/wallets/components/network-badge";
 import { WalletProviderBadge } from "@/features/wallets/components/wallet-provider-badge";
 import { walletOptions } from "@/features/wallets/constants";
+import { freighterAdapter } from "@/features/wallets/lib/freighter-adapter";
 import type { WalletProvider } from "@/features/wallets/types";
 import type { UserRole } from "@/types/domain";
 
@@ -77,6 +78,9 @@ export function OnboardingWorkspace() {
   const [selectedRole, setSelectedRole] = useState<UserRole>("BUYER");
   const [selectedProvider, setSelectedProvider] =
     useState<WalletProvider>("freighter");
+  const [connectedPublicKey, setConnectedPublicKey] = useState("");
+  const [connectedNetwork, setConnectedNetwork] = useState("Stellar Testnet");
+  const [isConnecting, setIsConnecting] = useState(false);
   const installedProviders = readInstalledProviders();
 
   const activeWallet = walletOptions.find(
@@ -86,7 +90,7 @@ export function OnboardingWorkspace() {
     ? installedProviders[activeWallet.provider]
     : false;
 
-  function handleContinue() {
+  async function handleContinue() {
     if (!activeWallet) {
       return;
     }
@@ -96,7 +100,26 @@ export function OnboardingWorkspace() {
       return;
     }
 
-    toast.info(`${activeWallet.label} connection will be activated next.`);
+    if (selectedProvider !== "freighter") {
+      toast.info("Rabet adapter will be activated in the next integration pass.");
+      return;
+    }
+
+    try {
+      setIsConnecting(true);
+      const connection = await freighterAdapter.connect();
+
+      setConnectedNetwork(connection.network ?? "Stellar Testnet");
+      setConnectedPublicKey(connection.publicKey);
+
+      toast.success("Freighter connected successfully.");
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to connect Freighter.";
+      toast.error(message);
+    } finally {
+      setIsConnecting(false);
+    }
   }
 
   return (
@@ -228,18 +251,27 @@ export function OnboardingWorkspace() {
             <MetricRow label="Selected role" value={selectedRole} />
             <MetricRow
               label="Wallet status"
-              value={isInstalled ? "Ready to connect" : "Extension missing"}
+              value={
+                connectedPublicKey
+                  ? "Connected"
+                  : isInstalled
+                    ? "Ready to connect"
+                    : "Extension missing"
+              }
             />
-            <MetricRow label="Public key" value="Pending connection" />
-            <MetricRow label="Network" value="Stellar Testnet" />
+            <MetricRow
+              label="Public key"
+              value={connectedPublicKey || "Pending connection"}
+              mono
+            />
+            <MetricRow label="Network" value={connectedNetwork} />
           </div>
-          <Button className="mt-6 w-full" onClick={handleContinue}>
-            Connect wallet
+          <Button className="mt-6 w-full" onClick={handleContinue} disabled={isConnecting}>
+            {isConnecting ? "Connecting..." : "Connect wallet"}
           </Button>
           <p className="mt-3 text-sm leading-6 text-slate-500">
-            This milestone validates role and provider selection. Freighter and
-            Rabet adapters will populate the live public key and signing flow in
-            the next commits.
+            Freighter now performs a real extension handshake with network
+            checks. Rabet will join the same adapter layer in the next commit.
           </p>
         </section>
 
@@ -268,11 +300,26 @@ export function OnboardingWorkspace() {
   );
 }
 
-function MetricRow({ label, value }: { label: string; value: string }) {
+function MetricRow({
+  label,
+  mono = false,
+  value,
+}: {
+  label: string;
+  mono?: boolean;
+  value: string;
+}) {
   return (
     <div className="flex items-center justify-between gap-4 rounded-[18px] border border-white/10 bg-white/4 px-4 py-3">
       <span className="text-sm text-slate-400">{label}</span>
-      <span className="text-sm font-medium text-white">{value}</span>
+      <span
+        className={cn(
+          "text-sm font-medium text-white",
+          mono && "max-w-[18ch] truncate font-mono text-xs uppercase tracking-[0.12em]",
+        )}
+      >
+        {value}
+      </span>
     </div>
   );
 }
