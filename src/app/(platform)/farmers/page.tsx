@@ -1,11 +1,10 @@
-import { PlaceholderSurface } from "@/components/placeholder-surface";
+import { FarmersPayoutBoard } from "@/features/farmers/components/farmers-payout-board";
+import { getFarmerPayoutBoard } from "@/features/farmers/server";
 
-export default function FarmersPlaceholderPage() {
-  return (
-    <PlaceholderSurface
-      title="Farmer payout visibility is staged."
-      description="The upcoming pass will plug assigned lots, expected payouts, and payout proof into this route for farmer-facing tracking."
-      eyebrow="Farmers"
-    />
-  );
+export const dynamic = "force-dynamic";
+
+export default async function FarmersPage() {
+  const board = await getFarmerPayoutBoard();
+
+  return <FarmersPayoutBoard board={board} />;
 }
