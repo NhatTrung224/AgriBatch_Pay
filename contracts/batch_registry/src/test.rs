@@ -11,7 +11,8 @@ fn sample_batch_id(env: &Env) -> String {
 #[test]
 fn creates_batch_record() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, BatchRegistry);
+    env.mock_all_auths();
+    let contract_id = env.register(BatchRegistry, ());
     let client = BatchRegistryClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);
@@ -38,7 +39,8 @@ fn creates_batch_record() {
 #[test]
 fn adds_farmer_lot_and_accumulates_total() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, BatchRegistry);
+    env.mock_all_auths();
+    let contract_id = env.register(BatchRegistry, ());
     let client = BatchRegistryClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);
@@ -75,7 +77,8 @@ fn adds_farmer_lot_and_accumulates_total() {
 #[test]
 fn confirms_quality_after_lots_exist() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, BatchRegistry);
+    env.mock_all_auths();
+    let contract_id = env.register(BatchRegistry, ());
     let client = BatchRegistryClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);

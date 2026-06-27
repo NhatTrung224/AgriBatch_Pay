@@ -11,7 +11,8 @@ fn sample_batch_id(env: &Env) -> String {
 #[test]
 fn funds_vault_release() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, PayoutVault);
+    env.mock_all_auths();
+    let contract_id = env.register(PayoutVault, ());
     let client = PayoutVaultClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);
@@ -29,7 +30,8 @@ fn funds_vault_release() {
 #[test]
 fn approves_existing_settlement() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, PayoutVault);
+    env.mock_all_auths();
+    let contract_id = env.register(PayoutVault, ());
     let client = PayoutVaultClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);
@@ -47,7 +49,8 @@ fn approves_existing_settlement() {
 #[test]
 fn reads_release_after_funding() {
     let env = Env::default();
-    let contract_id = env.register_contract(None, PayoutVault);
+    env.mock_all_auths();
+    let contract_id = env.register(PayoutVault, ());
     let client = PayoutVaultClient::new(&env, &contract_id);
     let admin = Address::generate(&env);
     let buyer = Address::generate(&env);
