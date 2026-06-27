@@ -1,11 +1,17 @@
-import { PlaceholderSurface } from "@/components/placeholder-surface";
+import { SubmissionChecklist } from "@/features/submission/components/submission-checklist";
+import { getSubmissionSurfaceData } from "@/features/submission/server";
 
-export default function SubmissionPlaceholderPage() {
+export const dynamic = "force-dynamic";
+
+export default async function SubmissionPage() {
+  const surface = await getSubmissionSurfaceData();
+
   return (
-    <PlaceholderSurface
-      title="Submission evidence has a dedicated surface."
-      description="This route will become the screenshot-ready checklist for CI, tests, contract addresses, tx proofs, and Railway health once those integrations are complete."
-      eyebrow="Submission"
+    <SubmissionChecklist
+      contractAddresses={surface.contractAddresses}
+      evidence={surface.evidence}
+      healthcheckUrl={surface.healthcheckUrl}
+      repoUrl={surface.repoUrl}
     />
   );
 }
