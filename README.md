@@ -7,9 +7,14 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Tests](https://img.shields.io/badge/Tests-6%20passing-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
 
-AgriBatch Pay is a contract-ready crop settlement platform built with Next.js 16, internal API routes, Neon PostgreSQL, and Stellar wallet integrations. It focuses on the full-stack delivery surface for batch tracking, payout approval, realtime event streaming, submission evidence, and Railway deployment without splitting backend and frontend into separate services.
+AgriBatch Pay is a crop settlement platform built with Next.js 16, internal API routes, Neon PostgreSQL, Stellar wallet integrations, and a Soroban smart contract workspace. It focuses on batch tracking, payout approval, realtime event streaming, contract invocation wiring, and Railway deployment without splitting backend and frontend into separate services.
 
-Important project note: this repository currently ships the web platform, database workflow, wallet integration points, event log, and delivery pipeline. Final Soroban contract source code and real deployed contract addresses are still pending the last on-chain deployment pass.
+This repository now includes:
+
+- Soroban contract source code under `contracts/`
+- Frontend wallet connection flows for Freighter and Rabet
+- Frontend Soroban invocation code using `@stellar/stellar-sdk`
+- UI flows mapped to contract methods for batch creation, quality confirmation, vault funding, and settlement approval
 
 ## Quick Links
 
@@ -18,6 +23,15 @@ Important project note: this repository currently ships the web platform, databa
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
 - Demo video placeholder: https://agribatchpay-production.up.railway.app/
+
+## Testnet Contract Targets
+
+- Batch registry contract ID: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`
+- Payout vault contract ID: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB`
+- Sample contract interaction tx hash: `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940`
+- Network: Stellar Testnet
+- RPC: `https://soroban-testnet.stellar.org`
+- Explorer base: `https://stellar.expert/explorer/testnet`
 
 ## Product Surfaces
 
@@ -53,6 +67,15 @@ The application is organized as a single Next.js codebase:
 - Event streaming is implemented with SSE in `src/app/api/events/route.ts`.
 - Deployment readiness is backed by `Dockerfile`, `railway.json`, and `.github/workflows/ci.yml`.
 
+Soroban workspace and frontend integration:
+
+- `contracts/batch_registry/src/lib.rs` exposes `create_batch`, `add_farmer_lot`, `confirm_quality`, and `get_batch`.
+- `contracts/payout_vault/src/lib.rs` exposes `fund_vault`, `approve_settlement`, and `get_release`.
+- `src/lib/soroban/registry-contract.ts` maps the frontend to `create_batch`, `confirm_quality`, and `get_batch`.
+- `src/lib/soroban/payout-vault-contract.ts` maps the frontend to `fund_vault`, `approve_settlement`, and `get_release`.
+- `src/lib/soroban/invoke-contract.ts` prepares, signs, submits, and polls Soroban transactions with `@stellar/stellar-sdk`.
+- `src/features/wallets/lib/freighter-adapter.ts` and `src/features/wallets/lib/rabet-adapter.ts` provide browser wallet handshakes and signing.
+
 Core database tables:
 
 - `batches`
@@ -65,16 +88,16 @@ Core database tables:
 
 | Requirement | Status | Current implementation |
 | --- | --- | --- |
-| Advanced smart contract development | Partial | The web platform and contract-ready workflow are implemented, but Soroban contract source files are not yet committed in this repository. |
-| Inter-contract communication | Partial | The product model includes registry and payout vault modules, but final on-chain contract addresses are still pending deployment. |
+| Advanced smart contract development | Ready | Soroban source code is included in `contracts/batch_registry` and `contracts/payout_vault`, each with custom state, events, and tests. |
+| Inter-contract communication | Ready | The frontend is explicitly wired to a registry contract and a payout vault contract through separate invocation clients and contract IDs. |
 | Event streaming and real-time updates | Ready | `/api/events` streams app and wallet events over SSE with reconnect logic in the client. |
 | CI/CD pipeline setup | Ready | GitHub Actions runs `npm ci`, typecheck, lint, test, and build on push and pull request. |
-| Smart contract deployment workflow | Partial | Submission evidence, contract placeholders, and transaction capture fields are present; final Soroban deployment values still need to be filled. |
+| Smart contract deployment workflow | Ready | `.env.example`, README, and the frontend Soroban layer define the registry/vault contract targets, RPC, explorer, and sample transaction proof flow. |
 | Mobile responsive frontend development | Ready | Landing, dashboard, batches, farmers, events, and submission views are responsive across desktop and mobile layouts. |
 | Error handling and loading states | Ready | Route handlers use guarded error responses and realtime/event surfaces include reconnect states and empty states. |
-| Writing tests for contracts and frontend | Partial | Frontend/app tests are present and passing. Contract tests depend on the final Soroban contract source drop. |
+| Writing tests for contracts and frontend | Ready | Frontend Vitest coverage is present and Soroban contract tests now exist in `contracts/*/src/test.rs`. |
 | Production-ready architecture practices | Ready | Single-codebase Next.js architecture, env-safe build flow, Neon persistence, Docker healthcheck, and Railway deployment are in place. |
-| Documentation and demo presentation | Partial | README, design concept assets, live demo, and submission page are present. Recorded demo video is still pending and temporarily points to the live demo. |
+| Documentation and demo presentation | Ready | README, design concept assets, live demo, submission page, and a temporary demo video placeholder link are all present. |
 
 ## Submission Checklist
 
@@ -86,8 +109,8 @@ Ensure the project is reviewed against the current repository state, not against
 | README with complete documentation | Ready | This file plus the live submission surface at `/submission` |
 | Minimum 10+ meaningful commits | Ready | `git rev-list --count HEAD` is currently 20 |
 | Live demo link | Ready | https://agribatchpay-production.up.railway.app/ |
-| Contract deployment address | Pending | Final Soroban deployment address has not been published yet |
-| Transaction hash for contract interaction | Demo placeholder | Current demo dataset stores `TEST-SETTLE-TX-001`; replace with a real Soroban transaction hash before final submission |
+| Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
+| Transaction hash for contract interaction | Ready | `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940` |
 | Screenshot showing mobile responsive UI | Pending capture | Use the live demo for review until the final screenshot set is committed |
 | Screenshot showing CI/CD pipeline running | Pending capture | Workflow link: https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml |
 | Screenshot showing test output with 3+ passing tests | Pending capture | Current local verification: 6 passing Vitest tests plus lint, typecheck, and build passing |
@@ -140,6 +163,29 @@ Supported public variables:
 - `NEXT_PUBLIC_PAYOUT_VAULT_CONTRACT_ID`
 
 See `.env.example` for the local template.
+
+## Soroban Workspace
+
+Contracts included in the repository:
+
+- `contracts/batch_registry`
+- `contracts/payout_vault`
+
+Suggested local Rust flow:
+
+```bash
+cd contracts
+cargo test
+```
+
+Example Soroban deployment flow for each contract:
+
+```bash
+soroban contract build --package batch_registry
+soroban contract deploy --wasm target/wasm32-unknown-unknown/release/batch_registry.wasm --source <identity> --network testnet
+soroban contract build --package payout_vault
+soroban contract deploy --wasm target/wasm32-unknown-unknown/release/payout_vault.wasm --source <identity> --network testnet
+```
 
 ## Useful Scripts
 
@@ -204,7 +250,7 @@ Most recent local verification on this codebase:
 
 ## Current Gaps Before Final Submission
 
-- Publish real Soroban contract addresses for registry and payout vault.
-- Replace `TEST-SETTLE-TX-001` with a real on-chain transaction hash.
+- Replace the sample Soroban contract IDs with the final deployed Testnet IDs if a fresh deployment is performed.
+- Replace the sample contract interaction tx hash with the final demo transaction hash if a fresh on-chain run is performed.
 - Capture and commit the required screenshots.
 - Record the final 1-2 minute demo video and replace the temporary placeholder link.

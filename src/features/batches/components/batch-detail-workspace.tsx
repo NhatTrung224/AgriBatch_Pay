@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { ButtonLink } from "@/components/ui/button-link";
 import type { AppEventSelect, BatchSelect, FarmerLotSelect } from "@/lib/db/schema";
 import { formatDisplayAmount, formatRelativeDate, shortenAddress } from "@/lib/formatters";
+import { fundVaultOnSoroban, getConfiguredPayoutVaultContractId, approveSettlementOnSoroban } from "@/lib/soroban/payout-vault-contract";
+import { confirmQualityOnSoroban, getConfiguredRegistryContractId } from "@/lib/soroban/registry-contract";
 import { cn } from "@/lib/utils";
 import { getBatchWorkflowState } from "@/features/batches/workflow";
 import type { WalletProvider } from "@/types/domain";
@@ -50,6 +52,11 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
     pricePerKg: "9.2",
     weightKg: "",
   });
+  const [qualityForm, setQualityForm] = useState<WalletActionState>({
+    provider: "freighter",
+    publicKey: detail.batch.cooperativeWallet,
+    txHash: "",
+  });
   const [fundingForm, setFundingForm] = useState<WalletActionState>({
     provider: "freighter",
     publicKey: detail.batch.buyerWallet,
@@ -60,6 +67,10 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
     publicKey: detail.batch.buyerWallet,
     txHash: "",
   });
+  const registryContractId = getConfiguredRegistryContractId();
+  const payoutVaultContractId = getConfiguredPayoutVaultContractId();
+  const hasSorobanRegistry = Boolean(registryContractId);
+  const hasSorobanVault = Boolean(registryContractId && payoutVaultContractId);
 
   const workflow = getBatchWorkflowState({
     hasLots: detail.lots.length > 0,
@@ -124,44 +135,126 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
     });
   }
 
-  async function handleConfirmQuality() {
-    const completed = await postJson(
-      `/api/batches/${detail.batch.id}/quality`,
-      "confirm_quality",
-    );
+  async function handleConfirmQuality(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-    if (completed) {
-      toast.success("Batch quality confirmed.");
+    try {
+      const txHash =
+        qualityForm.txHash ||
+        (hasSorobanRegistry
+          ? (
+              await confirmQualityOnSoroban({
+                batchId: detail.batch.id,
+                provider: qualityForm.provider,
+                publicKey: qualityForm.publicKey,
+              })
+            ).hash
+          : "");
+
+      const completed = await postJson(
+        `/api/batches/${detail.batch.id}/quality`,
+        "confirm_quality",
+        {
+          provider: qualityForm.provider,
+          publicKey: qualityForm.publicKey,
+          txHash,
+        },
+      );
+
+      if (completed) {
+        toast.success(
+          hasSorobanRegistry && txHash
+            ? "Batch quality confirmed on Soroban and mirrored locally."
+            : "Batch quality confirmed.",
+        );
+        setQualityForm((current) => ({ ...current, txHash: "" }));
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to confirm quality.";
+      toast.error(message);
     }
   }
 
   async function handleFundVault(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const completed = await postJson(
-      `/api/batches/${detail.batch.id}/fund`,
-      "fund_vault",
-      fundingForm,
-    );
+    try {
+      const txHash =
+        fundingForm.txHash ||
+        (hasSorobanVault && registryContractId
+          ? (
+              await fundVaultOnSoroban({
+                amount: detail.batch.totalAmount,
+                batchId: detail.batch.id,
+                provider: fundingForm.provider,
+                publicKey: fundingForm.publicKey,
+                registryContractId,
+              })
+            ).hash
+          : "");
 
-    if (completed) {
-      toast.success("Payout vault funded.");
-      setFundingForm((current) => ({ ...current, txHash: "" }));
+      const completed = await postJson(
+        `/api/batches/${detail.batch.id}/fund`,
+        "fund_vault",
+        {
+          ...fundingForm,
+          txHash,
+        },
+      );
+
+      if (completed) {
+        toast.success(
+          hasSorobanVault && txHash
+            ? "Payout vault funded on Soroban and mirrored locally."
+            : "Payout vault funded.",
+        );
+        setFundingForm((current) => ({ ...current, txHash: "" }));
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to fund the payout vault.";
+      toast.error(message);
     }
   }
 
   async function handleApproveSettlement(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const completed = await postJson(
-      `/api/batches/${detail.batch.id}/approve`,
-      "approve_settlement",
-      approvalForm,
-    );
+    try {
+      const txHash =
+        approvalForm.txHash ||
+        (hasSorobanVault
+          ? (
+              await approveSettlementOnSoroban({
+                batchId: detail.batch.id,
+                provider: approvalForm.provider,
+                publicKey: approvalForm.publicKey,
+              })
+            ).hash
+          : "");
 
-    if (completed) {
-      toast.success("Settlement approved and payout release recorded.");
-      setApprovalForm((current) => ({ ...current, txHash: "" }));
+      const completed = await postJson(
+        `/api/batches/${detail.batch.id}/approve`,
+        "approve_settlement",
+        {
+          ...approvalForm,
+          txHash,
+        },
+      );
+
+      if (completed) {
+        toast.success(
+          hasSorobanVault && txHash
+            ? "Settlement approved on Soroban and payout release recorded."
+            : "Settlement approved and payout release recorded.",
+        );
+        setApprovalForm((current) => ({ ...current, txHash: "" }));
+      }
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to approve settlement.";
+      toast.error(message);
     }
   }
 
@@ -282,22 +375,70 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               </div>
             </form>
             <ActionHint message={workflow.reasons.addLot} />
-            <div className="mt-5 flex flex-col gap-3 border-t border-white/8 pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <form
+              className="mt-5 grid gap-3 border-t border-white/8 pt-5"
+              onSubmit={handleConfirmQuality}
+            >
               <div>
                 <p className="text-sm font-medium text-white">Quality confirmation</p>
                 <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Batch needs at least one lot before this step unlocks.
+                  Batch needs at least one lot before this step unlocks. If the
+                  registry contract is configured, this action will call
+                  <code className="ml-1">confirm_quality</code>
+                  first and persist the resulting tx hash.
                 </p>
               </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                <Field label="Provider">
+                  <select
+                    value={qualityForm.provider}
+                    onChange={(event) =>
+                      setQualityForm((current) => ({
+                        ...current,
+                        provider: event.target.value as WalletProvider,
+                      }))
+                    }
+                    className={inputClassName}
+                  >
+                    <option value="freighter">Freighter</option>
+                    <option value="rabet">Rabet</option>
+                  </select>
+                </Field>
+                <Field label="Approver public key">
+                  <input
+                    value={qualityForm.publicKey}
+                    onChange={(event) =>
+                      setQualityForm((current) => ({
+                        ...current,
+                        publicKey: event.target.value,
+                      }))
+                    }
+                    className={inputClassName}
+                  />
+                </Field>
+              </div>
+              <Field label="Quality tx hash (optional)">
+                <input
+                  value={qualityForm.txHash}
+                  onChange={(event) =>
+                    setQualityForm((current) => ({
+                      ...current,
+                      txHash: event.target.value,
+                    }))
+                  }
+                  className={inputClassName}
+                  placeholder="Soroban tx hash or leave blank to invoke contract"
+                />
+              </Field>
               <Button
+                type="submit"
                 variant="secondary"
-                onClick={handleConfirmQuality}
                 disabled={!workflow.canConfirm || busyAction === "confirm_quality"}
               >
                 <ShieldCheck size={18} className="mr-2" />
                 {busyAction === "confirm_quality" ? "Confirming..." : "Confirm quality"}
               </Button>
-            </div>
+            </form>
             <ActionHint message={workflow.reasons.confirm} className="mt-3" />
           </ActionCard>
 
@@ -353,6 +494,13 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               </Button>
             </form>
             <ActionHint message={workflow.reasons.fund} />
+            {hasSorobanVault ? (
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Empty tx hash fields will trigger a live
+                <code className="mx-1">fund_vault</code>
+                call against the configured payout vault contract.
+              </p>
+            ) : null}
 
             <form className="mt-5 grid gap-3 border-t border-white/8 pt-5" onSubmit={handleApproveSettlement}>
               <div className="grid gap-3 md:grid-cols-2">
@@ -403,6 +551,13 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               </Button>
             </form>
             <ActionHint message={workflow.reasons.approve} className="mt-3" />
+            {hasSorobanVault ? (
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Empty settlement tx hash fields will invoke
+                <code className="mx-1">approve_settlement</code>
+                before the local payout state is updated.
+              </p>
+            ) : null}
           </ActionCard>
         </div>
       </section>

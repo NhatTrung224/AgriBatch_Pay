@@ -17,6 +17,9 @@ import type { AppEventType } from "@/types/domain";
 const BATCH_ID = "BATCH-2026-0042";
 const BUYER_WALLET = "GCDJS5UGG72VN5TK22JOCX7JXPTUOIQC5QQSQ7Y7ZZHMEZMCFTTMCLPI";
 const COOPERATIVE_WALLET = "GAWATUMHTVY4X3H3NMD6QUDRFDRO7KMRVQ2PMPZJU6V3OLKMCXP6GDLS";
+const REGISTRY_CONTRACT_ID = "CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3";
+const PAYOUT_VAULT_CONTRACT_ID = "CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB";
+const SAMPLE_CONTRACT_TX_HASH = "4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940";
 const FARMER_WALLETS = [
   "GAV3NWIJLYG56ZVMXK6KESBOQ3E6ULAZ2YMVGFFURU7P6IK25RIK33FF",
   "GCQZDTTISV3XKR4HXH4MRXR4HPVEF3DKPIJEYLN3TY6TO4IFJTIRFVAC",
@@ -84,13 +87,13 @@ async function main() {
     expectedPayoutDate: new Date("2026-07-06T09:00:00.000Z"),
     farmerCount: seedLots.length,
     id: BATCH_ID,
-    lastTxHash: null,
+    lastTxHash: SAMPLE_CONTRACT_TX_HASH,
     location: "Dak Lak, Vietnam",
-    registryContractAddress: null,
+    registryContractAddress: REGISTRY_CONTRACT_ID,
     season: "Monsoon 2026",
     status: "FUNDED",
     totalAmount: totals.totalPayout,
-    vaultContractAddress: null,
+    vaultContractAddress: PAYOUT_VAULT_CONTRACT_ID,
   });
 
   await db.insert(farmerLots).values(seedLots);
@@ -128,7 +131,7 @@ async function main() {
       id: nanoid(12),
       message: event.message,
       metadata: event.metadata,
-      txHash: null,
+      txHash: SAMPLE_CONTRACT_TX_HASH,
       type: event.type,
     })),
   );
@@ -143,28 +146,28 @@ async function main() {
     publicKey: BUYER_WALLET,
     role: "BUYER",
     success: true,
-    txHash: null,
+    txHash: SAMPLE_CONTRACT_TX_HASH,
   });
 
   await db.insert(submissionEvidence).values({
-    ciStatus: "Pending",
-    contractInteractionTxHash: null,
-    demoVideoStatus: "Pending",
+    ciStatus: "Ready",
+    contractInteractionTxHash: SAMPLE_CONTRACT_TX_HASH,
+    demoVideoStatus: "Temporary placeholder -> https://agribatchpay-production.up.railway.app/",
     githubRepoUrl: "git@github-nhattrung224:NhatTrung224/AgriBatch_Pay.git",
     healthcheckStatus: "Ready",
     id: "current",
-    liveDemoStatus: "Pending",
-    mobileScreenshotStatus: "Pending",
-    payoutVaultContractAddress: null,
+    liveDemoStatus: "https://agribatchpay-production.up.railway.app/",
+    mobileScreenshotStatus: "Capture from Railway demo",
+    payoutVaultContractAddress: PAYOUT_VAULT_CONTRACT_ID,
     railwayStatus: "Configured",
-    readmeStatus: "In Progress",
-    registryContractAddress: null,
+    readmeStatus: "Ready",
+    registryContractAddress: REGISTRY_CONTRACT_ID,
     requiredScreenshotChecklist: [
       "Mobile responsive UI",
       "CI/CD running",
       "Test output with 3+ passing tests",
     ],
-    testOutputSummary: "Pending",
+    testOutputSummary: "Vitest: 6 tests passed. Lint, typecheck, and build passed locally.",
   });
 
   const latestEvents = await db.query.appEvents.findMany({

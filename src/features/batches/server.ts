@@ -5,12 +5,19 @@ import { revalidatePath } from "next/cache";
 import { calculateLotPayout, summarizeLotTotals } from "@/lib/batches/calculations";
 import { db } from "@/lib/db";
 import { appEvents, batches, farmerLots, submissionEvidence, walletInteractions } from "@/lib/db/schema";
-import { createBatchSchema, fundVaultSchema, addFarmerLotSchema, approveSettlementSchema } from "@/lib/validation/batches";
+import {
+  addFarmerLotSchema,
+  approveSettlementSchema,
+  confirmQualitySchema,
+  createBatchSchema,
+  fundVaultSchema,
+} from "@/lib/validation/batches";
 import { canAddFarmerLot, canApproveSettlement, canConfirmQuality, canFundVault } from "@/features/batches/workflow";
 import type { AppEventType, BatchStatus } from "@/types/domain";
 
 type CreateBatchInput = Parameters<typeof createBatchSchema.parse>[0];
 type AddFarmerLotInput = Parameters<typeof addFarmerLotSchema.parse>[0];
+type ConfirmQualityInput = Parameters<typeof confirmQualitySchema.parse>[0];
 type FundVaultInput = Parameters<typeof fundVaultSchema.parse>[0];
 type ApproveSettlementInput = Parameters<typeof approveSettlementSchema.parse>[0];
 
@@ -153,15 +160,27 @@ export async function createBatch(input: CreateBatchInput) {
     expectedPayoutDate: parsed.expectedPayoutDate ? new Date(parsed.expectedPayoutDate) : null,
     farmerCount: 0,
     id: batchId,
-    lastTxHash: null,
+    lastTxHash: parsed.txHash || null,
     location: parsed.location,
-    registryContractAddress: null,
+    registryContractAddress: parsed.registryContractAddress || null,
     season: parsed.season,
     status: "CREATED",
     totalAmount: 0,
     updatedAt: now(),
-    vaultContractAddress: null,
+    vaultContractAddress: parsed.vaultContractAddress || null,
   });
+
+  if (parsed.provider && parsed.txHash) {
+    await logWalletInteraction({
+      action: "create_batch",
+      contractAddress: parsed.registryContractAddress || null,
+      provider: parsed.provider,
+      publicKey: parsed.cooperativeWallet,
+      role: "COOPERATIVE",
+      success: true,
+      txHash: parsed.txHash,
+    });
+  }
 
   await appendEvent({
     batchId,
@@ -169,8 +188,11 @@ export async function createBatch(input: CreateBatchInput) {
     metadata: {
       buyerWallet: parsed.buyerWallet,
       cropType: parsed.cropType,
+      registryContractAddress: parsed.registryContractAddress || null,
       season: parsed.season,
+      vaultContractAddress: parsed.vaultContractAddress || null,
     },
+    txHash: parsed.txHash || null,
     type: "batch_created",
   });
 
@@ -232,7 +254,8 @@ export async function addFarmerLot(batchId: string, input: AddFarmerLotInput) {
   return getBatchDetail(batchId);
 }
 
-export async function confirmBatchQuality(batchId: string) {
+export async function confirmBatchQuality(batchId: string, input?: ConfirmQualityInput) {
+  const parsed = confirmQualitySchema.parse(input ?? {});
   const batch = await db.query.batches.findFirst({
     where: eq(batches.id, batchId),
   });
@@ -254,14 +277,31 @@ export async function confirmBatchQuality(batchId: string) {
   }
 
   await db.update(batches).set({
+    lastTxHash: parsed.txHash || batch.lastTxHash,
     status: "QUALITY_CONFIRMED",
     updatedAt: now(),
   }).where(eq(batches.id, batchId));
 
+  if (parsed.provider && parsed.publicKey) {
+    await logWalletInteraction({
+      action: "confirm_quality",
+      contractAddress: batch.registryContractAddress,
+      provider: parsed.provider,
+      publicKey: parsed.publicKey,
+      role: "AUDITOR",
+      success: true,
+      txHash: parsed.txHash || null,
+    });
+  }
+
   await appendEvent({
     batchId,
     message: `Quality confirmed for batch ${batchId}.`,
-    metadata: { status: "QUALITY_CONFIRMED" },
+    metadata: {
+      publicKey: parsed.publicKey || null,
+      status: "QUALITY_CONFIRMED",
+    },
+    txHash: parsed.txHash || null,
     type: "quality_confirmed",
   });
 
