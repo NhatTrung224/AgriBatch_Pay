@@ -26,12 +26,16 @@ export default async function DashboardPage() {
                 settlement evidence.
               </h1>
               <p className="max-w-2xl text-sm leading-7 text-slate-300 lg:text-base">
-                Live metrics and recent activity now come directly from Neon.
-                The next passes will deepen wallet-backed actions and contract
-                interactions on top of these surfaces.
+                Live metrics and recent activity come directly from Neon, while
+                wallet-backed Soroban actions are already wired into onboarding,
+                batch creation, quality confirmation, vault funding, and
+                settlement approval flows.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href="/onboarding" variant="ghost">
+                Connect Wallet
+              </ButtonLink>
               <ButtonLink href="/batches/new" variant="primary">
                 Create Crop Batch
               </ButtonLink>

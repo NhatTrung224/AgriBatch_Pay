@@ -16,6 +16,21 @@ This repository now includes:
 - Frontend Soroban invocation code using `@stellar/stellar-sdk`
 - UI flows mapped to contract methods for batch creation, quality confirmation, vault funding, and settlement approval
 
+## Audit Evidence For The 3 Previously Failed Checks
+
+- Connect wallet feature:
+  `src/app/(platform)/onboarding/page.tsx` renders
+  `src/features/wallets/components/onboarding-workspace.tsx`, which exposes a
+  real `Connect wallet` action for Freighter and Rabet.
+- Frontend smart contract integration:
+  `src/lib/soroban/invoke-contract.ts` prepares, signs, submits, and polls
+  Soroban transactions with `@stellar/stellar-sdk`.
+- Frontend-to-contract function matching:
+  `src/features/batches/components/create-batch-form.tsx` calls
+  `create_batch`, and
+  `src/features/batches/components/batch-detail-workspace.tsx` calls
+  `confirm_quality`, `fund_vault`, and `approve_settlement`.
+
 ## Quick Links
 
 - GitHub repository: https://github.com/NhatTrung224/AgriBatch_Pay
@@ -236,6 +251,7 @@ Railway deployment notes:
 
 Most recent local verification on this codebase:
 
+- `cd contracts && cargo test` -> 6 Soroban contract tests passing
 - `npm run test` -> 6 tests passing
 - `npm run lint` -> passing
 - `npm run typecheck` -> passing

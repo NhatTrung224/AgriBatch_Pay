@@ -227,8 +227,8 @@ export default function HomePage() {
                   <ButtonLink href="/dashboard" variant="primary">
                     Open Dashboard
                   </ButtonLink>
-                  <ButtonLink href="/submission" variant="ghost">
-                    View Submission
+                  <ButtonLink href="/onboarding" variant="ghost">
+                    Connect Wallet
                   </ButtonLink>
                 </div>
               </div>
@@ -378,6 +378,11 @@ export default function HomePage() {
           <h2 className="font-display text-[2.2rem] tracking-[-0.05em] text-white">
             Supported Wallets
           </h2>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-slate-400">
+            Freighter and Rabet both connect through the live onboarding flow,
+            where the app checks installation state, requests access, validates
+            the Stellar network, and stores the returned public key.
+          </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
             {walletCards.map(({ badge, badgeClassName, description, title }) => (
               <article
@@ -391,12 +396,9 @@ export default function HomePage() {
                 </span>
                 <h3 className="mt-4 text-2xl font-medium text-white">{title}</h3>
                 <p className="mt-2 text-sm leading-7 text-slate-400">{description}</p>
-                <button
-                  type="button"
-                  className="mt-5 inline-flex h-11 w-full items-center justify-center rounded-full border border-cyan-300/22 bg-cyan-300/8 px-5 text-sm font-medium text-cyan-100 transition duration-200 hover:bg-cyan-300/12"
-                >
-                  Connect
-                </button>
+                <ButtonLink href="/onboarding" variant="ghost" className="mt-5 w-full">
+                  Connect Wallet
+                </ButtonLink>
               </article>
             ))}
           </div>
@@ -448,8 +450,8 @@ export default function HomePage() {
               <ButtonLink href="/dashboard" variant="primary">
                 Open Dashboard
               </ButtonLink>
-              <ButtonLink href="/submission" variant="ghost">
-                View Submission
+              <ButtonLink href="/onboarding" variant="ghost">
+                Connect Wallet
               </ButtonLink>
             </div>
           </div>
