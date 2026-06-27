@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans, Space_Grotesk } from "next/font/google";
 
+import { AppToaster } from "@/components/ui/app-toaster";
+
 import "./globals.css";
 
 const displayFont = Space_Grotesk({
@@ -39,7 +41,10 @@ export default function RootLayout({
       lang="en"
       className={`${displayFont.variable} ${uiFont.variable} ${monoFont.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <AppToaster />
+      </body>
     </html>
   );
 }
