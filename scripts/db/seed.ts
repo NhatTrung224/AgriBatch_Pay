@@ -15,6 +15,13 @@ import {
 import type { AppEventType } from "@/types/domain";
 
 const BATCH_ID = "BATCH-2026-0042";
+const BUYER_WALLET = "GCDJS5UGG72VN5TK22JOCX7JXPTUOIQC5QQSQ7Y7ZZHMEZMCFTTMCLPI";
+const COOPERATIVE_WALLET = "GAWATUMHTVY4X3H3NMD6QUDRFDRO7KMRVQ2PMPZJU6V3OLKMCXP6GDLS";
+const FARMER_WALLETS = [
+  "GAV3NWIJLYG56ZVMXK6KESBOQ3E6ULAZ2YMVGFFURU7P6IK25RIK33FF",
+  "GCQZDTTISV3XKR4HXH4MRXR4HPVEF3DKPIJEYLN3TY6TO4IFJTIRFVAC",
+  "GB5A3NMOY5XENJ2CF2FPFCGJWDTL7UKBYUHEP6RRID6K6SSB3GN6DJK7",
+] as const;
 
 async function main() {
   const existingBatch = await db.query.batches.findFirst({
@@ -31,7 +38,7 @@ async function main() {
     {
       batchId: BATCH_ID,
       farmerName: "Nguyen Van Loc",
-      farmerWallet: "GBYLOC4EXAMPLEWALLETTESTNET11111111111111111111111111",
+      farmerWallet: FARMER_WALLETS[0],
       grade: 1,
       id: nanoid(12),
       paid: false,
@@ -42,7 +49,7 @@ async function main() {
     {
       batchId: BATCH_ID,
       farmerName: "Tran Thi Mai",
-      farmerWallet: "GBYMAI4EXAMPLEWALLETTESTNET22222222222222222222222222",
+      farmerWallet: FARMER_WALLETS[1],
       grade: 2,
       id: nanoid(12),
       paid: false,
@@ -53,7 +60,7 @@ async function main() {
     {
       batchId: BATCH_ID,
       farmerName: "Le Quoc Phuong",
-      farmerWallet: "GBYPHUONGEXAMPLEWALLETTESTNET3333333333333333333333333",
+      farmerWallet: FARMER_WALLETS[2],
       grade: 3,
       id: nanoid(12),
       paid: false,
@@ -71,9 +78,8 @@ async function main() {
   await db.insert(batches).values({
     assetCode: "USDC",
     assetContractAddress: null,
-    buyerWallet: "GBUYERTESTNETEXAMPLEPUBLICKEY111111111111111111111111111",
-    cooperativeWallet:
-      "GCOOPTESTNETEXAMPLEPUBLICKEY11111111111111111111111111111",
+    buyerWallet: BUYER_WALLET,
+    cooperativeWallet: COOPERATIVE_WALLET,
     cropType: "Robusta Coffee",
     expectedPayoutDate: new Date("2026-07-06T09:00:00.000Z"),
     farmerCount: seedLots.length,
@@ -134,7 +140,7 @@ async function main() {
     errorMessage: null,
     id: nanoid(12),
     provider: "freighter",
-    publicKey: "GBUYERTESTNETEXAMPLEPUBLICKEY111111111111111111111111111",
+    publicKey: BUYER_WALLET,
     role: "BUYER",
     success: true,
     txHash: null,

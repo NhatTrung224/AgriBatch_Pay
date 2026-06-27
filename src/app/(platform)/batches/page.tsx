@@ -1,11 +1,10 @@
-import { PlaceholderSurface } from "@/components/placeholder-surface";
+import { listBatches } from "@/features/batches/server";
+import { BatchesDirectory } from "@/features/batches/components/batches-directory";
 
-export default function BatchesPlaceholderPage() {
-  return (
-    <PlaceholderSurface
-      title="Batches workspace is next in line."
-      description="The shell route exists, the data model is live in Neon, and the next milestone will wire searchable batch lists and detail workflows into this surface."
-      eyebrow="Batches"
-    />
-  );
+export const dynamic = "force-dynamic";
+
+export default async function BatchesPage() {
+  const items = await listBatches();
+
+  return <BatchesDirectory items={items} />;
 }
