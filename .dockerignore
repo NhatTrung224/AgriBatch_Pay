@@ -1,9 +1,12 @@
 .git
 .github
 .next
+.logs
+.tmp-runtime
 coverage
 node_modules
 npm-debug.log*
+test-results
 .env
 .env.local
 .env.development
