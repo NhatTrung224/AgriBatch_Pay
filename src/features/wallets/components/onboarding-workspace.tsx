@@ -18,6 +18,7 @@ import { NetworkBadge } from "@/features/wallets/components/network-badge";
 import { WalletProviderBadge } from "@/features/wallets/components/wallet-provider-badge";
 import { walletOptions } from "@/features/wallets/constants";
 import { freighterAdapter } from "@/features/wallets/lib/freighter-adapter";
+import { rabetAdapter } from "@/features/wallets/lib/rabet-adapter";
 import type { WalletProvider } from "@/features/wallets/types";
 import type { UserRole } from "@/types/domain";
 
@@ -100,22 +101,22 @@ export function OnboardingWorkspace() {
       return;
     }
 
-    if (selectedProvider !== "freighter") {
-      toast.info("Rabet adapter will be activated in the next integration pass.");
-      return;
-    }
+    const adapter =
+      selectedProvider === "freighter" ? freighterAdapter : rabetAdapter;
 
     try {
       setIsConnecting(true);
-      const connection = await freighterAdapter.connect();
+      const connection = await adapter.connect();
 
       setConnectedNetwork(connection.network ?? "Stellar Testnet");
       setConnectedPublicKey(connection.publicKey);
 
-      toast.success("Freighter connected successfully.");
+      toast.success(`${activeWallet.label} connected successfully.`);
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Unable to connect Freighter.";
+        error instanceof Error
+          ? error.message
+          : `Unable to connect ${activeWallet.label}.`;
       toast.error(message);
     } finally {
       setIsConnecting(false);
@@ -271,7 +272,8 @@ export function OnboardingWorkspace() {
           </Button>
           <p className="mt-3 text-sm leading-6 text-slate-500">
             Freighter now performs a real extension handshake with network
-            checks. Rabet will join the same adapter layer in the next commit.
+            checks. Rabet uses the extension browser API and assumes the app&apos;s
+            configured network when signing.
           </p>
         </section>
 
