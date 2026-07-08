@@ -134,7 +134,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
 | Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 6 passing Vitest tests |
 | Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
-| User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md). |
+| User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 
 ## Local Development
 
@@ -219,6 +219,7 @@ npm run db:generate
 npm run db:push
 npm run db:migrate
 npm run db:seed
+npm run submission:audit-proof
 ```
 
 ## API Surface
@@ -258,6 +259,7 @@ Most recent local verification on this codebase:
 
 - `npx tsx --env-file=.env.local scripts/submission/seed-lv5-testnet-users.ts` -> 55 Stellar CLI identities created/funded for Level 5 user proof
 - Live screenshot capture -> `docs/screenshots/dashboard-analytics.png`, `docs/screenshots/events-activity.png`, `docs/screenshots/submission-proof.png`
+- `npm run submission:audit-proof` -> prints distinct wallets, wallet interactions, tx hashes, and event proof counts
 - `cd contracts && cargo test` -> 6 Soroban contract tests passing
 - `npm run test` -> 6 tests passing
 - `npm run lint` -> passing
