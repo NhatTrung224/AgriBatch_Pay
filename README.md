@@ -129,9 +129,10 @@ Ensure the project is reviewed against the current repository state, not against
 | Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
 | Transaction hash for contract interaction | Ready | `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940` |
 | Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are funded by Friendbot and recorded in `wallet_interactions`; `/submission` surfaces the live count. |
-| Screenshot showing mobile responsive UI | Pending capture | Use the live demo for review until the final screenshot set is committed |
-| Screenshot showing CI/CD pipeline running | Pending capture | Workflow link: https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml |
-| Screenshot showing test output with 3+ passing tests | Pending capture | Current local verification: 6 passing Vitest tests plus lint, typecheck, and build passing |
+| Screenshot showing mobile responsive UI | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) |
+| Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
+| Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
+| Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 6 passing Vitest tests |
 | Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md). |
 
@@ -256,6 +257,7 @@ Railway deployment notes:
 Most recent local verification on this codebase:
 
 - `npx tsx --env-file=.env.local scripts/submission/seed-lv5-testnet-users.ts` -> 55 Stellar CLI identities created/funded for Level 5 user proof
+- Live screenshot capture -> `docs/screenshots/dashboard-analytics.png`, `docs/screenshots/events-activity.png`, `docs/screenshots/submission-proof.png`
 - `cd contracts && cargo test` -> 6 Soroban contract tests passing
 - `npm run test` -> 6 tests passing
 - `npm run lint` -> passing
