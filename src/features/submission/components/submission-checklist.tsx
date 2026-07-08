@@ -69,7 +69,7 @@ export function SubmissionChecklist({
             <span className="inline-flex rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[0.7rem] uppercase tracking-[0.22em] text-slate-300">
               Submission evidence
             </span>
-            <h1 className="mt-4 font-display text-[3rem] tracking-[-0.06em] text-white">
+            <h1 className="mt-4 font-display text-[clamp(2.15rem,6vw,3rem)] leading-[0.98] tracking-[-0.04em] text-white">
               Screenshot-ready checklist for the final delivery pass.
             </h1>
           </div>
