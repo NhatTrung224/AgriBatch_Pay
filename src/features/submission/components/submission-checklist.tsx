@@ -184,17 +184,37 @@ export function SubmissionChecklist({
               Delivery placeholders
             </p>
             <div className="mt-4 space-y-3 text-sm text-slate-300">
-              <p>Live Demo: {evidence?.liveDemoStatus ?? "Pending"}</p>
-              <p>Pitch Deck: /submission/pitch-deck.html</p>
+              <SubmissionLink label="Live Demo" href={evidence?.liveDemoStatus} />
+              <SubmissionLink label="Pitch Deck" href="/submission/pitch-deck.html" />
               <p>Demo Video: {evidence?.demoVideoStatus ?? "Pending"}</p>
-              <p>Demo Script: /submission/demo-video-script.html</p>
+              <SubmissionLink label="Demo Script" href="/submission/demo-video-script.html" />
               <p>Mobile screenshot: {evidence?.mobileScreenshotStatus ?? "Pending"}</p>
-              <p>Healthcheck URL: {healthcheckUrl}</p>
+              <SubmissionLink label="Healthcheck URL" href={healthcheckUrl} />
             </div>
           </div>
         </article>
       </section>
     </div>
+  );
+}
+
+function SubmissionLink({ href, label }: { href?: string | null; label: string }) {
+  if (!href || href === "Pending") {
+    return <p>{label}: Pending</p>;
+  }
+
+  return (
+    <p>
+      {label}:{" "}
+      <a
+        href={href}
+        className="text-cyan-100 underline decoration-cyan-100/30 underline-offset-4"
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel={href.startsWith("http") ? "noreferrer" : undefined}
+      >
+        {href}
+      </a>
+    </p>
   );
 }
 
