@@ -45,8 +45,8 @@ This is a testnet QA feedback log, not a claim of 34 verified real production us
 
 | Feedback | Change made | Commit |
 | --- | --- | --- |
-| Make the 50+ wallet proof impossible to miss. | Added stronger proof cards to the submission page. | Pending |
-| Make pitch deck and demo links clickable from the app. | Converted delivery links into real anchors. | Pending |
-| Make transaction hash evidence easier to inspect. | Added label/title affordances for explorer links. | Pending |
-| Reduce oversized submission headline risk in screenshots. | Made the submission H1 responsive. | Pending |
-| Keep DB proof reproducible. | Added a reusable proof audit script. | Pending |
+| Make the 50+ wallet proof impossible to miss. | Added stronger proof cards to the submission page. | [`f201d2b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/f201d2b) |
+| Make pitch deck and demo links clickable from the app. | Converted delivery links into real anchors. | [`d98c934`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/d98c934) |
+| Make transaction hash evidence easier to inspect. | Added label/title affordances for explorer links. | [`93fad4b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/93fad4b) |
+| Reduce oversized submission headline risk in screenshots. | Made the submission H1 responsive. | [`841cda8`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/841cda8) |
+| Keep DB proof reproducible. | Added a reusable proof audit script. | [`802a878`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/802a878) |

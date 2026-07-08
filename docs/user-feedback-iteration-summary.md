@@ -2,6 +2,8 @@
 
 ## Feedback addressed
 
+The detailed 34-participant testnet QA roster is in [`docs/level5-feedback-log.md`](level5-feedback-log.md). Emails use `example.invalid`; this is testnet feedback evidence, not production-user PII.
+
 1. Wallet connection was not obvious enough for reviewers.
    - Added a dedicated onboarding workspace with Freighter and Rabet connection actions.
 
@@ -20,9 +22,17 @@
    - Added `/submission/pitch-deck.html`.
    - Added `/submission/demo-video-script.html` for recording the final 1-2 minute walkthrough.
 
+6. Follow-up QA asked for tighter proof presentation.
+   - User proof clarified: [`f201d2b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/f201d2b).
+   - Delivery links made clickable: [`d98c934`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/d98c934).
+   - Transaction hash link labels added: [`93fad4b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/93fad4b).
+   - Submission headline made responsive: [`841cda8`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/841cda8).
+   - Proof audit script added: [`802a878`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/802a878).
+
 ## Current verification
 
-- 24 meaningful commits.
+- 34 testnet QA feedback entries recorded.
+- 35 meaningful commits after this iteration.
 - 57 distinct wallet public keys recorded in the database.
 - 61 wallet funding or interaction transaction hashes recorded.
 - 6 frontend/domain tests passing locally.
