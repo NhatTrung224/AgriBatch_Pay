@@ -57,7 +57,7 @@ export function SubmissionChecklist({
     },
     {
       label: "50+ Users",
-      value: `${proofMetrics.distinctWallets} funded testnet wallets`,
+      value: `${proofMetrics.distinctWallets} Friendbot-funded wallets`,
     },
   ];
 
@@ -112,7 +112,12 @@ export function SubmissionChecklist({
             />
             <InfoCard
               label="User proof"
-              value={`${proofMetrics.distinctWallets} unique wallets / ${proofMetrics.walletInteractions} interactions`}
+              value={`${proofMetrics.distinctWallets} unique Stellar testnet wallets / ${proofMetrics.walletInteractions} DB interactions`}
+              icon={<CheckCircle size={18} className="text-emerald-100" />}
+            />
+            <InfoCard
+              label="Proof method"
+              value="Generated with Stellar CLI, funded by Friendbot, stored as public keys only"
               icon={<CheckCircle size={18} className="text-emerald-100" />}
             />
             <InfoCard
