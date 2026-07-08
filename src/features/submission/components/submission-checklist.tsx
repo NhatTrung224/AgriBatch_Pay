@@ -107,7 +107,7 @@ export function SubmissionChecklist({
             />
             <InfoCard
               label="Commit target"
-              value="24 meaningful commits"
+              value="35+ meaningful commits"
               icon={<CheckCircle size={18} className="text-emerald-100" />}
             />
             <InfoCard
@@ -181,7 +181,7 @@ export function SubmissionChecklist({
 
           <div className="mt-6 rounded-[24px] border border-white/10 bg-white/3 px-5 py-5">
             <p className="text-[0.7rem] uppercase tracking-[0.18em] text-slate-500">
-              Delivery placeholders
+              Delivery links
             </p>
             <div className="mt-4 space-y-3 text-sm text-slate-300">
               <SubmissionLink label="Live Demo" href={evidence?.liveDemoStatus} />

@@ -113,7 +113,7 @@ Core database tables:
 | Error handling and loading states | Ready | Route handlers use guarded error responses and realtime/event surfaces include reconnect states and empty states. |
 | Writing tests for contracts and frontend | Ready | Frontend Vitest coverage is present and Soroban contract tests now exist in `contracts/*/src/test.rs`. |
 | Production-ready architecture practices | Ready | Single-codebase Next.js architecture, env-safe build flow, Neon persistence, Docker healthcheck, and Railway deployment are in place. |
-| Documentation and demo presentation | Ready | README, design concept assets, live demo, submission page, and a temporary demo video placeholder link are all present. |
+| Documentation and demo presentation | Ready | README, design concept assets, live demo, submission page, pitch deck, and demo recording script are present. |
 
 ## Submission Checklist
 

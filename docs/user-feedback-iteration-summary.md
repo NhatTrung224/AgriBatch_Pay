@@ -32,7 +32,7 @@ The detailed 34-participant testnet QA roster is in [`docs/level5-feedback-log.m
 ## Current verification
 
 - 34 testnet QA feedback entries recorded.
-- 35 meaningful commits after this iteration.
+- 35+ meaningful commits after this iteration.
 - 57 distinct wallet public keys recorded in the database.
 - 61 wallet funding or interaction transaction hashes recorded.
 - 6 frontend/domain tests passing locally.
