@@ -36,8 +36,9 @@ This repository now includes:
 - GitHub repository: https://github.com/NhatTrung224/AgriBatch_Pay
 - Live demo: https://agribatchpay-production.up.railway.app/
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
+- Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html
+- Demo video script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
-- Demo video placeholder: https://agribatchpay-production.up.railway.app/
 
 ## Testnet Contract Targets
 
@@ -122,14 +123,17 @@ Ensure the project is reviewed against the current repository state, not against
 | --- | --- | --- |
 | Public GitHub repository | Ready | https://github.com/NhatTrung224/AgriBatch_Pay |
 | README with complete documentation | Ready | This file plus the live submission surface at `/submission` |
-| Minimum 10+ meaningful commits | Ready | `git rev-list --count HEAD` is currently 20 |
+| Minimum 20+ meaningful commits | Ready | `git rev-list --count HEAD` is currently 24 |
 | Live demo link | Ready | https://agribatchpay-production.up.railway.app/ |
+| PPT / pitch deck link | Ready | https://agribatchpay-production.up.railway.app/submission/pitch-deck.html |
 | Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
 | Transaction hash for contract interaction | Ready | `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940` |
+| Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are funded by Friendbot and recorded in `wallet_interactions`; `/submission` surfaces the live count. |
 | Screenshot showing mobile responsive UI | Pending capture | Use the live demo for review until the final screenshot set is committed |
 | Screenshot showing CI/CD pipeline running | Pending capture | Workflow link: https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml |
 | Screenshot showing test output with 3+ passing tests | Pending capture | Current local verification: 6 passing Vitest tests plus lint, typecheck, and build passing |
-| Demo video link (1-2 minutes) | Temporary placeholder | https://agribatchpay-production.up.railway.app/ |
+| Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
+| User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md). |
 
 ## Local Development
 
@@ -251,6 +255,7 @@ Railway deployment notes:
 
 Most recent local verification on this codebase:
 
+- `npx tsx --env-file=.env.local scripts/submission/seed-lv5-testnet-users.ts` -> 55 Stellar CLI identities created/funded for Level 5 user proof
 - `cd contracts && cargo test` -> 6 Soroban contract tests passing
 - `npm run test` -> 6 tests passing
 - `npm run lint` -> passing
@@ -269,4 +274,4 @@ Most recent local verification on this codebase:
 - Replace the sample Soroban contract IDs with the final deployed Testnet IDs if a fresh deployment is performed.
 - Replace the sample contract interaction tx hash with the final demo transaction hash if a fresh on-chain run is performed.
 - Capture and commit the required screenshots.
-- Record the final 1-2 minute demo video and replace the temporary placeholder link.
+- Record the final 1-2 minute demo video and replace the demo-script link with the uploaded video URL.

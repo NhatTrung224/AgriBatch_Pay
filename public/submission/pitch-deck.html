@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgriBatch Pay Pitch Deck</title>
+    <style>
+      body { margin: 0; background: #07100c; color: #f7fee7; font-family: Arial, sans-serif; }
+      main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0; }
+      section { min-height: 78vh; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; padding: 48px; margin-bottom: 28px; background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(14,165,233,.08)); }
+      h1 { font-size: clamp(42px, 8vw, 92px); line-height: .92; letter-spacing: -.06em; margin: 0 0 24px; }
+      h2 { font-size: clamp(32px, 5vw, 64px); line-height: 1; letter-spacing: -.04em; margin: 0 0 24px; }
+      p, li { font-size: 22px; line-height: 1.5; color: #d9f99d; }
+      .kicker { color: #86efac; text-transform: uppercase; letter-spacing: .2em; font-size: 13px; }
+      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+      .card { border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 22px; background: rgba(255,255,255,.06); }
+      a { color: #67e8f9; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section>
+        <p class="kicker">Level 5 Submission</p>
+        <h1>AgriBatch Pay</h1>
+        <p>Stellar-powered crop settlement for cooperatives, buyers, and farmers.</p>
+      </section>
+      <section>
+        <p class="kicker">Problem</p>
+        <h2>Batch payouts are slow, opaque, and hard to audit.</h2>
+        <p>Farmer lots, quality checks, and buyer funding often live in separate tools, making settlement proof painful.</p>
+      </section>
+      <section>
+        <p class="kicker">Solution</p>
+        <h2>One operational workspace for batch settlement.</h2>
+        <div class="grid">
+          <div class="card">Create crop batches and farmer lots.</div>
+          <div class="card">Connect Freighter or Rabet wallets.</div>
+          <div class="card">Invoke Soroban registry and payout vault flows.</div>
+          <div class="card">Track live events, health, and submission proof.</div>
+        </div>
+      </section>
+      <section>
+        <p class="kicker">Traction Proof</p>
+        <h2>57 funded testnet wallets recorded.</h2>
+        <p>Wallet proof is stored in Neon PostgreSQL and surfaced on the live submission page.</p>
+      </section>
+      <section>
+        <p class="kicker">Links</p>
+        <h2>Submission-ready surfaces</h2>
+        <ul>
+          <li><a href="/">Live app</a></li>
+          <li><a href="/submission">Submission checklist</a></li>
+          <li><a href="/api/health">Healthcheck</a></li>
+          <li><a href="https://github.com/NhatTrung224/AgriBatch_Pay">GitHub repository</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

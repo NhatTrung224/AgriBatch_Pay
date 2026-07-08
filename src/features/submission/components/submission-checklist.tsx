@@ -23,6 +23,11 @@ type SubmissionChecklistProps = {
     testOutputSummary: string;
   } | null;
   healthcheckUrl: string;
+  proofMetrics: {
+    appEvents: number;
+    distinctWallets: number;
+    walletInteractions: number;
+  };
   repoUrl: string;
 };
 
@@ -30,6 +35,7 @@ export function SubmissionChecklist({
   contractAddresses,
   evidence,
   healthcheckUrl,
+  proofMetrics,
   repoUrl,
 }: SubmissionChecklistProps) {
   const cards = [
@@ -48,6 +54,10 @@ export function SubmissionChecklist({
     {
       label: "Healthcheck",
       value: evidence?.healthcheckStatus ?? "Pending",
+    },
+    {
+      label: "50+ Users",
+      value: `${proofMetrics.distinctWallets} funded testnet wallets`,
     },
   ];
 
@@ -69,7 +79,7 @@ export function SubmissionChecklist({
           </div>
         </div>
 
-        <div className="mt-8 grid gap-4 lg:grid-cols-4">
+        <div className="mt-8 grid gap-4 lg:grid-cols-5">
           {cards.map((card) => (
             <article
               key={card.label}
@@ -97,7 +107,17 @@ export function SubmissionChecklist({
             />
             <InfoCard
               label="Commit target"
-              value="20-24 meaningful commits"
+              value="24 meaningful commits"
+              icon={<CheckCircle size={18} className="text-emerald-100" />}
+            />
+            <InfoCard
+              label="User proof"
+              value={`${proofMetrics.distinctWallets} unique wallets / ${proofMetrics.walletInteractions} interactions`}
+              icon={<CheckCircle size={18} className="text-emerald-100" />}
+            />
+            <InfoCard
+              label="Activity proof"
+              value={`${proofMetrics.appEvents} app events recorded`}
               icon={<CheckCircle size={18} className="text-emerald-100" />}
             />
             <InfoCard
@@ -160,7 +180,9 @@ export function SubmissionChecklist({
             </p>
             <div className="mt-4 space-y-3 text-sm text-slate-300">
               <p>Live Demo: {evidence?.liveDemoStatus ?? "Pending"}</p>
+              <p>Pitch Deck: /submission/pitch-deck.html</p>
               <p>Demo Video: {evidence?.demoVideoStatus ?? "Pending"}</p>
+              <p>Demo Script: /submission/demo-video-script.html</p>
               <p>Mobile screenshot: {evidence?.mobileScreenshotStatus ?? "Pending"}</p>
               <p>Healthcheck URL: {healthcheckUrl}</p>
             </div>

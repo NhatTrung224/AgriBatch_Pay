@@ -11,6 +11,7 @@ export default async function SubmissionPage() {
       contractAddresses={surface.contractAddresses}
       evidence={surface.evidence}
       healthcheckUrl={surface.healthcheckUrl}
+      proofMetrics={surface.proofMetrics}
       repoUrl={surface.repoUrl}
     />
   );
