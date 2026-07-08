@@ -18,6 +18,8 @@ export function TransactionHashLink({
       target="_blank"
       rel="noreferrer"
       className={className}
+      aria-label={`Open transaction ${value} on Stellar Expert`}
+      title={value}
     >
       <span>{shortenAddress(value)}</span>
       <ArrowSquareOut size={16} />
