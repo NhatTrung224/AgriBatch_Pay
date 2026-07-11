@@ -1,64 +1,22 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>AgriBatch Pay Pitch Deck</title>
-    <style>
-      body { margin: 0; background: #07100c; color: #f7fee7; font-family: Arial, sans-serif; }
-      main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0; }
-      section { min-height: 78vh; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; padding: 48px; margin-bottom: 28px; background: linear-gradient(135deg, rgba(34,197,94,.14), rgba(14,165,233,.08)); }
-      h1 { font-size: clamp(42px, 8vw, 92px); line-height: .92; letter-spacing: -.06em; margin: 0 0 24px; }
-      h2 { font-size: clamp(32px, 5vw, 64px); line-height: 1; letter-spacing: -.04em; margin: 0 0 24px; }
-      p, li { font-size: 22px; line-height: 1.5; color: #d9f99d; }
-      .kicker { color: #86efac; text-transform: uppercase; letter-spacing: .2em; font-size: 13px; }
-      .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-      .card { border: 1px solid rgba(255,255,255,.12); border-radius: 20px; padding: 22px; background: rgba(255,255,255,.06); }
-      a { color: #67e8f9; }
-    </style>
-  </head>
-  <body>
-    <main>
-      <section>
-        <p class="kicker">Level 5 Submission</p>
-        <h1>AgriBatch Pay</h1>
-        <p>Stellar-powered crop settlement for cooperatives, buyers, and farmers.</p>
-      </section>
-      <section>
-        <p class="kicker">Problem</p>
-        <h2>Batch payouts are slow, opaque, and hard to audit.</h2>
-        <p>Farmer lots, quality checks, and buyer funding often live in separate tools, making settlement proof painful.</p>
-      </section>
-      <section>
-        <p class="kicker">Solution</p>
-        <h2>One operational workspace for batch settlement.</h2>
-        <div class="grid">
-          <div class="card">Create crop batches and farmer lots.</div>
-          <div class="card">Connect Freighter or Rabet wallets.</div>
-          <div class="card">Invoke Soroban registry and payout vault flows.</div>
-          <div class="card">Track live events, health, and submission proof.</div>
-        </div>
-      </section>
-      <section>
-        <p class="kicker">Traction Proof</p>
-        <h2>57 funded testnet wallets recorded.</h2>
-        <p>Wallet proof is stored in Neon PostgreSQL and surfaced on the live submission page.</p>
-      </section>
-      <section>
-        <p class="kicker">Feedback Iteration</p>
-        <h2>34 testnet QA notes, 5 shipped improvements.</h2>
-        <p>We tightened user proof, clickable delivery links, transaction hash inspection, screenshot-safe type, and reusable proof audit scripts.</p>
-      </section>
-      <section>
-        <p class="kicker">Links</p>
-        <h2>Submission-ready surfaces</h2>
-        <ul>
-          <li><a href="/">Live app</a></li>
-          <li><a href="/submission">Submission checklist</a></li>
-          <li><a href="/api/health">Healthcheck</a></li>
-          <li><a href="https://github.com/NhatTrung224/AgriBatch_Pay">GitHub repository</a></li>
-        </ul>
-      </section>
-    </main>
-  </body>
-</html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AgriBatch Pay — Pitch Deck</title>
+  <style>
+    :root{--bg:#07100c;--ink:#f8fafc;--muted:#cbd5e1;--accent:#86efac;--line:color-mix(in srgb,var(--accent) 35%,transparent)}
+    *{box-sizing:border-box}html{scroll-snap-type:y proximity}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,sans-serif}
+    main{width:min(1120px,calc(100% - 32px));margin:auto}.slide{min-height:100svh;display:grid;align-content:center;gap:28px;padding:clamp(48px,8vw,104px) 0;border-bottom:1px solid var(--line);scroll-snap-align:start}
+    h1,h2{margin:0;max-width:14ch;letter-spacing:-.055em;line-height:.96}h1{font-size:clamp(52px,10vw,112px)}h2{font-size:clamp(40px,7vw,76px)}p,li,td,th{font-size:clamp(17px,2vw,22px);line-height:1.55;color:var(--muted)}
+    .accent{color:var(--accent)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}.metric{padding:28px;background:var(--bg)}.metric strong{display:block;font-size:46px;color:var(--accent)}
+    table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:18px 12px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--ink)}a{color:var(--accent)}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}.slide{min-height:auto;padding:72px 0}table,thead,tbody,tr,th,td{display:block}thead{display:none}td{padding:10px 0}tr{display:block;padding:16px 0;border-bottom:1px solid var(--line)}}
+  </style>
+</head>
+<body><main>
+  <section class="slide"><h1>AgriBatch Pay</h1><p>Stellar-powered crop settlement for cooperatives, buyers, and farmers.</p></section>
+  <section class="slide"><h2>The proof stays <span class="accent">visible.</span></h2><div class="grid"><div class="metric"><strong>32</strong>user feedback entries</div><div class="metric"><strong>2</strong>feedback languages</div><div class="metric"><strong>1</strong>improvement trail</div></div></section>
+  <section class="slide"><h2>User Feedback → Improvement</h2><table><thead><tr><th>Signal</th><th>Change</th></tr></thead><tbody><tr><td>Batch proof counts need emphasis.</td><td>Keep wallet and feedback totals prominent.</td></tr><tr><td>Settlement evidence is hard to inspect.</td><td>Preserve direct transaction and delivery links.</td></tr><tr><td>Feedback-to-change proof is scattered.</td><td>Show signal, improvement, and commit together.</td></tr></tbody></table></section>
+  <section class="slide"><h2>Review the evidence.</h2><p><a href="/submission">Submission</a> · <a href="/feedback">User Feedback</a> · <a href="https://github.com/NhatTrung224/AgriBatch_Pay">GitHub</a></p></section>
+</main></body></html>
