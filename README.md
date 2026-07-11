@@ -130,7 +130,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
 | Transaction hash for contract interaction | Ready | [Verified testnet transaction](https://stellar.expert/explorer/testnet/tx/2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301) |
 | Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are recorded in wallet_interactions; `/submission` surfaces the live count. |
-| User feedback responses | Ready | 32 responses, each mapped to an interacted wallet in [level5-users.csv](docs/level5-users.csv). |
+| User feedback responses | Ready | 32 responses, each mapped to an interacted wallet in the linked Google Sheet. |
 | Analytics and transaction activity | Ready | [Activity proof](docs/level5-transaction-activity-proof.md) and [dashboard screenshot](docs/screenshots/dashboard-analytics.png). |
 | Screenshot showing mobile responsive UI | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) |
 | Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
@@ -139,7 +139,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 | Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
-| Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) · [CSV source](docs/level5-users.csv) |
+| Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) |
 
 ## Local Development
 
