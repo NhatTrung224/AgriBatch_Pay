@@ -9,7 +9,8 @@ async function main() {
       (select count(distinct public_key)::int from wallet_interactions) as distinct_wallets,
       (select count(*)::int from wallet_interactions) as wallet_interactions,
       (select count(tx_hash)::int from wallet_interactions where tx_hash is not null) as tx_hashes,
-      (select count(*)::int from app_events) as app_events
+      (select count(*)::int from app_events) as app_events,
+      (select array_agg(distinct tx_hash) from wallet_interactions where tx_hash is not null) as transaction_hashes
   `;
 
   console.log(JSON.stringify(proof, null, 2));

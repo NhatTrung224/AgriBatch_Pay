@@ -124,18 +124,22 @@ Ensure the project is reviewed against the current repository state, not against
 | --- | --- | --- |
 | Public GitHub repository | Ready | https://github.com/NhatTrung224/AgriBatch_Pay |
 | README with complete documentation | Ready | This file plus the live submission surface at `/submission` |
-| Minimum 20+ meaningful commits | Ready | `git rev-list --count HEAD` is currently 24 |
+| Minimum 20+ meaningful commits | Ready | 42+ commits on main |
 | Live demo link | Ready | https://agribatchpay-production.up.railway.app/ |
 | PPT / pitch deck link | Ready | https://agribatchpay-production.up.railway.app/submission/pitch-deck.html |
 | Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
-| Transaction hash for contract interaction | Ready | `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940` |
-| Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are funded by Friendbot and recorded in `wallet_interactions`; `/submission` surfaces the live count. |
+| Transaction hash for contract interaction | Ready | [Verified testnet transaction](https://stellar.expert/explorer/testnet/tx/2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301) |
+| Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are recorded in wallet_interactions; `/submission` surfaces the live count. |
+| User feedback responses | Ready | 32 responses, each mapped to an interacted wallet in [level5-users.csv](docs/level5-users.csv). |
+| Analytics and transaction activity | Ready | [Activity proof](docs/level5-transaction-activity-proof.md) and [dashboard screenshot](docs/screenshots/dashboard-analytics.png). |
 | Screenshot showing mobile responsive UI | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) |
 | Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
 | Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
 | Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 6 passing Vitest tests |
 | Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
+| Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
+| Excel-compatible response export | Ready | [CSV export](docs/level5-users.csv) |
 
 ## Local Development
 
