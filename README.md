@@ -37,6 +37,7 @@ This repository now includes:
 - Live demo: https://agribatchpay-production.up.railway.app/
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html
+- User feedback audit: `npm run feedback:audit`
 - Demo video script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
 

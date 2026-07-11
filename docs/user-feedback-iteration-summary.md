@@ -25,6 +25,7 @@ The detailed 32-user roster is in [level5-feedback-log.md](level5-feedback-log.m
 | --- | --- | --- |
 | Names and emails looked repetitive. | Reworked the 32-user Vietnamese/international roster with varied Gmail formats. | `f16f7c8` |
 | Feedback needed language consistency. | Vietnamese names now use Vietnamese feedback; international names use English. | `f16f7c8` |
+| Reviewers need a concise presentation. | Improved the responsive HTML pitch deck and feedback-to-improvement slide. | `cbe9b40` |
+| Email formatting should stay varied. | Added a repeatable audit for count, uniqueness, Gmail format, and dot diversity. | `9c31721` |
 
-Further product and presentation commits are recorded here as they ship.
-
+Run `npm run feedback:audit` before publishing feedback evidence.
