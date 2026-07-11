@@ -16,7 +16,7 @@ if (rows.length < feedbackRows.length) throw new Error(`Need ${feedbackRows.leng
 
 const cell = (value: string | number | boolean | null) => `"${String(value ?? "").replaceAll('"', '""')}"`;
 const csv = [
-  ["user_id", "name", "email", "role", "wallet_address", "wallet_provider", "transaction_hash", "feedback"],
+  ["Mã người dùng", "Họ và tên", "Địa chỉ email", "Vai trò", "Địa chỉ ví Stellar", "Nhà cung cấp ví", "Mã giao dịch", "Nội dung phản hồi"],
   ...feedbackRows.map((cells, index) => {
     const wallet = rows[index];
     const offset = cells.length === 6 ? 1 : 0;

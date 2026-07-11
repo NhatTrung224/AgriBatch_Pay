@@ -1,4 +1,4 @@
-"user_id","name","email","role","wallet_address","wallet_provider","transaction_hash","feedback"
+"Mã người dùng","Họ và tên","Địa chỉ email","Vai trò","Địa chỉ ví Stellar","Nhà cung cấp ví","Mã giao dịch","Nội dung phản hồi"
 "1","Nguyễn Minh Anh","minhanh27@gmail.com","Farmer","GA2YHTCA3TXDSVOQ2JPXZV2Y5DBG6XO5SNLOKDFS76HA3TNYKNPOGP4A","rabet","2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301","Cần checklist rõ hơn trước khi nạp tiền."
 "2","Trần Quốc Bảo","baoquoc542@gmail.com","Buyer","GA5MAALKVNU3VYG2P5TCYD6FZJ5CAGCL6T23LKP27H5545SO6GTGJHXC","rabet","eaba0726e05a3a5fde166f6ca13cfde30f043973c999dd1af437e4b4e4c2f720","Bảng tổng quan dễ xem nhưng nút sao chép mã giao dịch còn khó thấy."
 "3","Lê Hoàng Linh","hoanglinhwork@gmail.com","Cooperative","GA6ZFILDHKIEEP6AGN67NRULCL4RLQHHOPTTDZO7QP2552HF7SWVYDSB","rabet","7b66fdd0ce052607b08da1d09c9aa96f04498bd64fa7db46134b9d1412acc6b4","Cần giải thích rõ hơn bước tiếp theo khi chưa có địa chỉ hợp đồng."
