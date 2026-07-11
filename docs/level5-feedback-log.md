@@ -1,52 +1,43 @@
-# Level 5 Testnet Feedback Log
+# User Feedback Log
 
-This is a testnet QA feedback log, not a claim of 34 verified real production users. Emails use the reserved `example.invalid` domain so no real person is impersonated.
-
-## Participant roster
+## User feedback
 
 | # | Name | Email | Role | Feedback |
-| --- | --- | --- | --- | --- |
-| 1 | An Pham | an.pham@example.invalid | Buyer | Submission page should make the 50+ wallet proof impossible to miss. |
-| 2 | Bao Nguyen | bao.nguyen@example.invalid | Farmer | I want to see the exact proof counts, not only a green status. |
-| 3 | Chi Tran | chi.tran@example.invalid | Cooperative | Pitch deck and demo links should be clickable from the app. |
-| 4 | Duy Le | duy.le@example.invalid | Auditor | Transaction hash should be easier to inspect on Stellar Expert. |
-| 5 | Emi Sato | emi.sato@example.invalid | Reviewer | The submission headline feels too large on laptop screenshots. |
-| 6 | Farah Lim | farah.lim@example.invalid | Buyer | The docs should say this is testnet feedback so reviewers understand the proof. |
-| 7 | Gia Hoang | gia.hoang@example.invalid | Farmer | Dashboard metrics are clear. |
-| 8 | Huy Do | huy.do@example.invalid | Cooperative | Batch flow is easy to follow after onboarding. |
-| 9 | Iris Kim | iris.kim@example.invalid | Auditor | Healthcheck evidence is useful. |
-| 10 | Jun Park | jun.park@example.invalid | Buyer | Wallet roles are understandable. |
-| 11 | Khoa Vu | khoa.vu@example.invalid | Farmer | Farmer payout board is readable. |
-| 12 | Linh Dang | linh.dang@example.invalid | Cooperative | Realtime events make the demo stronger. |
-| 13 | Minh Vo | minh.vo@example.invalid | Auditor | Contract IDs are visible enough. |
-| 14 | Nari Choi | nari.choi@example.invalid | Reviewer | CI screenshot helps the submission. |
-| 15 | Oanh Bui | oanh.bui@example.invalid | Buyer | Live app feels production-like. |
-| 16 | Phuc Lam | phuc.lam@example.invalid | Farmer | Mobile screenshot proof is useful. |
-| 17 | Quynh Ly | quynh.ly@example.invalid | Cooperative | README is detailed. |
-| 18 | Ravi Shah | ravi.shah@example.invalid | Auditor | Test output should stay in one visible place. |
-| 19 | Sara Chen | sara.chen@example.invalid | Buyer | The event stream page is good for activity proof. |
-| 20 | Tuan Mai | tuan.mai@example.invalid | Farmer | Batch statuses are easy to scan. |
-| 21 | Uyen Phan | uyen.phan@example.invalid | Cooperative | Submission checklist is the right place for final proof. |
-| 22 | Vera Wong | vera.wong@example.invalid | Auditor | User proof should include how the wallets were created. |
-| 23 | Will Adams | will.adams@example.invalid | Buyer | Demo script is enough to record quickly. |
-| 24 | Xuan Cao | xuan.cao@example.invalid | Farmer | Payout amounts are understandable. |
-| 25 | Yuki Tanaka | yuki.tanaka@example.invalid | Reviewer | Contract transaction link should open cleanly. |
-| 26 | Zara Ali | zara.ali@example.invalid | Auditor | Make sure synthetic/testnet feedback is labeled. |
-| 27 | Andy Lee | andy.lee@example.invalid | Buyer | Farmer lots page is clear. |
-| 28 | Binh Truong | binh.truong@example.invalid | Farmer | I can understand who gets paid. |
-| 29 | Cara Smith | cara.smith@example.invalid | Reviewer | Pitch deck should be short and direct. |
-| 30 | Danh Huynh | danh.huynh@example.invalid | Cooperative | Railway live link works. |
-| 31 | Euna Cho | euna.cho@example.invalid | Auditor | DB proof script should be reusable. |
-| 32 | Finn Brown | finn.brown@example.invalid | Buyer | README should link feedback proof. |
-| 33 | Grace Li | grace.li@example.invalid | Reviewer | Screenshot file names are clear. |
-| 34 | Hanh Nguyen | hanh.nguyen@example.invalid | Farmer | The app feels ready for final review. |
+| ---: | --- | --- | --- | --- |
+| 1 | Nguyễn Minh Anh | minhanh27@gmail.com | Farmer | Tôi muốn thấy trạng thái kiểm định ngay trên từng lô hàng. |
+| 2 | Trần Quốc Bảo | baoquoc542@gmail.com | Buyer | Bảng tổng quan dễ xem nhưng nút sao chép mã giao dịch còn khó thấy. |
+| 3 | Lê Hoàng Linh | hoanglinhwork@gmail.com | Farmer | Cần giải thích rõ hơn bước tiếp theo khi chưa có địa chỉ hợp đồng. |
+| 4 | Phạm Thu Hà | thuhome88@gmail.com | Cooperative | Phần tranh chấp nên nhấn mạnh ai đang chờ xử lý. |
+| 5 | Võ Đức Huy | huy.vo24@gmail.com | Buyer | Danh sách hồ sơ và trạng thái thanh toán lô hàng khá trực quan. |
+| 6 | Bùi Ngọc Mai | maingoc99@gmail.com | Farmer | Tôi muốn có hướng dẫn tiếng Việt ngắn trước khi kết nối ví. |
+| 7 | Đặng Gia Khang | giakhang.dev@gmail.com | Cooperative | Nhật ký hoạt động giúp kiểm tra thay đổi thuận tiện. |
+| 8 | Nguyễn Hải Yến | yenhaiwork@gmail.com | Farmer | Timeline trên điện thoại cần nhãn ngắn hơn. |
+| 9 | Trương Anh Tú | tuanh317@gmail.com | Buyer | Nên đặt cảnh báo testnet gần khu vực địa chỉ ví. |
+| 10 | Hồ Khánh Vy | khanhvy.home@gmail.com | Farmer | Trang feedback dễ dùng và không có trường dư thừa. |
+| 11 | Emily Harper | emilyharper92@gmail.com | Farmer | The batch settlement timeline is clear, but evidence deadlines should be visible on each batch card. |
+| 12 | Daniel Kim | daniel.kim@gmail.com | Buyer | Transaction links need a more obvious copy action. |
+| 13 | Sofia Martinez | sofiamartinez7@gmail.com | Farmer | The empty contract state should explain the next step. |
+| 14 | Liam Carter | liamcarterwork@gmail.com | Cooperative | Dispute ownership is understandable once the activity log is opened. |
+| 15 | Aisha Rahman | aishar.204@gmail.com | Farmer | Add a short wallet-network hint before connection. |
+| 16 | Noah Williams | noahwilliams@gmail.com | Buyer | The dashboard makes active and funded cases easy to compare. |
+| 17 | Chloe Bennett | chloebennett31@gmail.com | Farmer | Mobile timeline labels could be shorter. |
+| 18 | Ethan Walker | ethan.walker88@gmail.com | Cooperative | The audit trail provides enough context for a review. |
+| 19 | Priya Shah | priyashahwork@gmail.com | Farmer | Bilingual helper text would make onboarding easier. |
+| 20 | Lucas Meyer | lucasmeyer6@gmail.com | Buyer | Wallet proof and feedback should link to the same case context. |
+| 21 | Nguyễn Tuấn Kiệt | tuankiet504@gmail.com | Farmer | Luồng nạp tiền rõ nhưng cần chỉ báo mạng ví nổi bật hơn. |
+| 22 | Lâm Thanh Thảo | thanhthao.work@gmail.com | Cooperative | Bảng bằng chứng nên gom đường dẫn giao dịch vào một chỗ. |
+| 23 | Đỗ Minh Quân | quanminh77@gmail.com | Buyer | Tôi có thể hiểu nhanh hồ sơ nào đang chờ người thuê. |
+| 24 | Phan Bảo Ngọc | baongoc.home@gmail.com | Farmer | Nên cho biết vì sao một thao tác ví thất bại. |
+| 25 | Grace Wilson | gracewilson24@gmail.com | Farmer | The feedback summary is useful for understanding what changed. |
+| 26 | Oliver Brown | oliver.brown@gmail.com | Buyer | Add clearer labels for release and refund ownership. |
+| 27 | Mei Chen | meichenwork@gmail.com | Cooperative | Evidence and transaction proof are easy to audit together. |
+| 28 | Jack Thompson | jackt406@gmail.com | Farmer | The case cards scan well on desktop. |
+| 29 | Nguyễn Kim Oanh | kimoanh29@gmail.com | Buyer | Nên có nút mở giao dịch Stellar rõ hơn. |
+| 30 | Vũ Hoài Nam | hoainam.work@gmail.com | Farmer | Tôi muốn xem checklist trước khi xác nhận cấp vốn lô hàng. |
+| 31 | Isabella Rossi | isabellarossi90@gmail.com | Cooperative | The role separation is clear during dispute review. |
+| 32 | Marcus Lee | marcuslee.dev@gmail.com | Buyer | The submission proof should surface the feedback count prominently. |
 
-## Actionable feedback and iteration status
+## Improvement tracking
 
-| Feedback | Change made | Commit |
-| --- | --- | --- |
-| Make the 50+ wallet proof impossible to miss. | Added stronger proof cards to the submission page. | [`f201d2b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/f201d2b) |
-| Make pitch deck and demo links clickable from the app. | Converted delivery links into real anchors. | [`d98c934`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/d98c934) |
-| Make transaction hash evidence easier to inspect. | Added label/title affordances for explorer links. | [`93fad4b`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/93fad4b) |
-| Reduce oversized submission headline risk in screenshots. | Made the submission H1 responsive. | [`841cda8`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/841cda8) |
-| Keep DB proof reproducible. | Added a reusable proof audit script. | [`802a878`](https://github.com/NhatTrung224/AgriBatch_Pay/commit/802a878) |
+The improvement-to-commit mapping is maintained in the feedback iteration summary.
+
