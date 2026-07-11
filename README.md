@@ -139,7 +139,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 | Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
-| Excel-compatible response export | Ready | [CSV export](docs/level5-users.csv) |
+| Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) · [CSV source](docs/level5-users.csv) |
 
 ## Local Development
 
