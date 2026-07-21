@@ -5,7 +5,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
-[![Tests](https://img.shields.io/badge/Tests-6%20passing-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/Tests-7%20passing-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
 
 AgriBatch Pay is a crop settlement platform built with Next.js 16, internal API routes, Neon PostgreSQL, Stellar wallet integrations, and a Soroban smart contract workspace. It focuses on batch tracking, payout approval, realtime event streaming, contract invocation wiring, and Railway deployment without splitting backend and frontend into separate services.
 
@@ -37,6 +37,7 @@ This repository now includes:
 - Live demo: https://agribatchpay-production.up.railway.app/
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html
+- Demo video: https://agribatchpay-production.up.railway.app/submission/level5-demo.mp4
 - User feedback audit: `npm run feedback:audit`
 - Demo walkthrough script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
@@ -114,7 +115,7 @@ Core database tables:
 | Error handling and loading states | Ready | Route handlers use guarded error responses and realtime/event surfaces include reconnect states and empty states. |
 | Writing tests for contracts and frontend | Ready | Frontend Vitest coverage is present and Soroban contract tests now exist in `contracts/*/src/test.rs`. |
 | Production-ready architecture practices | Ready | Single-codebase Next.js architecture, env-safe build flow, Neon persistence, Docker healthcheck, and Railway deployment are in place. |
-| Documentation and demo presentation | Ready | README, design concept assets, live demo, submission page, pitch deck, and demo recording script are present. |
+| Documentation and demo presentation | Ready | README, design concept assets, live demo, submission page, pitch deck, demo video, and recording script are present. |
 
 ## Submission Checklist
 
@@ -135,8 +136,8 @@ Ensure the project is reviewed against the current repository state, not against
 | Screenshot showing mobile responsive UI | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) |
 | Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
 | Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
-| Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 6 passing Vitest tests |
-| Demo video link (1-2 minutes) | Pending upload | Walkthrough script is ready at https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Add the final hosted video URL after recording. |
+| Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 7 passing Vitest tests |
+| Demo video link (1-2 minutes) | Ready | [Watch deployed MP4](https://agribatchpay-production.up.railway.app/submission/level5-demo.mp4) or open the [repo copy](public/submission/level5-demo.mp4). |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 | Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
 | Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) |
@@ -282,4 +283,4 @@ Most recent local verification on this codebase:
 
 - Public proof wording now uses user wallet evidence, not local account generation labels.
 - Required screenshots are committed under `docs/screenshots/`.
-- Demo video remains the only pending upload; the walkthrough script is linked for recording.
+- Demo video is included at `public/submission/level5-demo.mp4`; the walkthrough script remains linked as supporting material.
