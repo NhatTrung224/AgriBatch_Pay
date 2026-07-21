@@ -37,7 +37,7 @@ This repository now includes:
 - Live demo: https://agribatchpay-production.up.railway.app/
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html
-- Demo video: https://agribatchpay-production.up.railway.app/submission/level5-demo.mp4
+- Demo video: https://raw.githubusercontent.com/NhatTrung224/AgriBatch_Pay/main/public/submission/level5-demo.mp4
 - User feedback audit: `npm run feedback:audit`
 - Demo walkthrough script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
@@ -137,7 +137,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
 | Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
 | Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 7 passing Vitest tests |
-| Demo video link (1-2 minutes) | Ready | [Watch deployed MP4](https://agribatchpay-production.up.railway.app/submission/level5-demo.mp4) or open the [repo copy](public/submission/level5-demo.mp4). |
+| Demo video link (1-2 minutes) | Ready | [Watch the MP4](https://raw.githubusercontent.com/NhatTrung224/AgriBatch_Pay/main/public/submission/level5-demo.mp4) or open the [repo copy](public/submission/level5-demo.mp4). |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 | Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
 | Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) |
