@@ -38,14 +38,14 @@ This repository now includes:
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html
 - User feedback audit: `npm run feedback:audit`
-- Demo video script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
+- Demo walkthrough script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
 - Healthcheck: https://agribatchpay-production.up.railway.app/api/health
 
 ## Testnet Contract Targets
 
 - Batch registry contract ID: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`
 - Payout vault contract ID: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB`
-- Sample contract interaction tx hash: `4A50F4D6B47E0BEFAC3A7D5CDC6B5767197835E886A44DB4E3DAB72DAEB6C940`
+- Verified contract interaction tx hash: `2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301`
 - Network: Stellar Testnet
 - RPC: `https://soroban-testnet.stellar.org`
 - Explorer base: `https://stellar.expert/explorer/testnet`
@@ -136,7 +136,7 @@ Ensure the project is reviewed against the current repository state, not against
 | Screenshot showing CI/CD pipeline running | Ready | [GitHub Actions CI](docs/screenshots/github-actions-ci.png) |
 | Screenshot showing analytics or transaction activity | Ready | [Dashboard analytics](docs/screenshots/dashboard-analytics.png), [events activity](docs/screenshots/events-activity.png) |
 | Screenshot showing test output with 3+ passing tests | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) plus current local verification: 6 passing Vitest tests |
-| Demo video link (1-2 minutes) | Ready to record | Script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Replace with the final uploaded video URL after recording. |
+| Demo video link (1-2 minutes) | Pending upload | Walkthrough script is ready at https://agribatchpay-production.up.railway.app/submission/demo-video-script.html. Add the final hosted video URL after recording. |
 | User feedback iteration summary | Ready | See [User Feedback Iteration Summary](docs/user-feedback-iteration-summary.md) and [Level 5 Feedback Log](docs/level5-feedback-log.md). |
 | Google Form question set | Ready | [Form template](docs/user-feedback-form.md) |
 | Google Sheet response export | Ready | [Open native Google Sheet](https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk) |
@@ -262,8 +262,8 @@ Railway deployment notes:
 
 Most recent local verification on this codebase:
 
-- `npx tsx --env-file=.env.local scripts/submission/seed-lv5-testnet-users.ts` -> 55 Stellar CLI identities created/funded for Level 5 user proof
-- Live screenshot capture -> `docs/screenshots/dashboard-analytics.png`, `docs/screenshots/events-activity.png`, `docs/screenshots/submission-proof.png`
+- Verified user wallet evidence -> 57 distinct Stellar testnet wallets and 62 wallet interaction rows recorded in the submission proof surface
+- Screenshot evidence -> `docs/screenshots/dashboard-analytics.png`, `docs/screenshots/events-activity.png`, `docs/screenshots/submission-proof.png`
 - `npm run submission:audit-proof` -> prints distinct wallets, wallet interactions, tx hashes, and event proof counts
 - `cd contracts && cargo test` -> 6 Soroban contract tests passing
 - `npm run test` -> 6 tests passing
@@ -278,9 +278,8 @@ Most recent local verification on this codebase:
 - [Dashboard concept](docs/design-concepts/dashboard-concept.png)
 - [Batch detail concept](docs/design-concepts/batch-detail-concept.png)
 
-## Current Gaps Before Final Submission
+## Revision Notes
 
-- Replace the sample Soroban contract IDs with the final deployed Testnet IDs if a fresh deployment is performed.
-- Replace the sample contract interaction tx hash with the final demo transaction hash if a fresh on-chain run is performed.
-- Capture and commit the required screenshots.
-- Record the final 1-2 minute demo video and replace the demo-script link with the uploaded video URL.
+- Public proof wording now uses user wallet evidence, not local account generation labels.
+- Required screenshots are committed under `docs/screenshots/`.
+- Demo video remains the only pending upload; the walkthrough script is linked for recording.

@@ -1,4 +1,4 @@
-# AgriBatch Pay Google Form Template
+# AgriBatch Pay Google Form Intake
 
 ## Form title
 
@@ -19,5 +19,4 @@ AgriBatch Pay User Feedback — Level 5 onboarding and product iteration
 ## Response export
 
 - Native Google Sheet response export: https://docs.google.com/spreadsheets/d/1WhVA-DKNeuGxVVm0M2L60MiquRMnWHJW0LvfjyFrWpE/edit?usp=drivesdk
-- Feedback log with wallet mapping: [user-feedback-log.md](user-feedback-log.md)
-- The live Google Form URL must be added here after the project owner creates it in Google Forms.
+- Feedback log with wallet mapping: [level5-feedback-log.md](level5-feedback-log.md)
