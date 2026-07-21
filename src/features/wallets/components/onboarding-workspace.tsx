@@ -9,7 +9,7 @@ import {
   UsersThree,
   Wallet,
 } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -54,26 +54,7 @@ const roleOptions: Array<{
   },
 ];
 
-type WalletInstallState = Record<WalletProvider, boolean>;
-
-function readInstalledProviders(): WalletInstallState {
-  if (typeof window === "undefined") {
-    return {
-      freighter: false,
-      rabet: false,
-    };
-  }
-
-  const walletWindow = window as Window & {
-    freighter?: unknown;
-    rabet?: unknown;
-  };
-
-  return {
-    freighter: Boolean(walletWindow.freighter),
-    rabet: Boolean(walletWindow.rabet),
-  };
-}
+type WalletInstallState = Record<WalletProvider, boolean | null>;
 
 export function OnboardingWorkspace() {
   const [selectedRole, setSelectedRole] = useState<UserRole>("BUYER");
@@ -82,7 +63,32 @@ export function OnboardingWorkspace() {
   const [connectedPublicKey, setConnectedPublicKey] = useState("");
   const [connectedNetwork, setConnectedNetwork] = useState("Stellar Testnet");
   const [isConnecting, setIsConnecting] = useState(false);
-  const installedProviders = readInstalledProviders();
+  const [installedProviders, setInstalledProviders] =
+    useState<WalletInstallState>({
+      freighter: null,
+      rabet: null,
+    });
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function checkWallets() {
+      const [freighter, rabet] = await Promise.all([
+        freighterAdapter.isInstalled().catch(() => false),
+        rabetAdapter.isInstalled().catch(() => false),
+      ]);
+
+      if (!cancelled) {
+        setInstalledProviders({ freighter, rabet });
+      }
+    }
+
+    void checkWallets();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const activeWallet = walletOptions.find(
     (wallet) => wallet.provider === selectedProvider,
@@ -93,11 +99,6 @@ export function OnboardingWorkspace() {
 
   async function handleContinue() {
     if (!activeWallet) {
-      return;
-    }
-
-    if (!isInstalled) {
-      toast.error(`${activeWallet.label} is not installed in this browser.`);
       return;
     }
 
@@ -220,10 +221,16 @@ export function OnboardingWorkspace() {
                           "rounded-full px-3 py-1 text-[0.7rem] uppercase tracking-[0.18em]",
                           installed
                             ? "border border-emerald-200/18 bg-emerald-300/10 text-emerald-100"
+                            : installed === null
+                              ? "border border-slate-300/18 bg-slate-300/10 text-slate-100"
                             : "border border-amber-300/18 bg-amber-300/10 text-amber-100",
                         )}
                       >
-                        {installed ? "Installed" : "Not installed"}
+                        {installed === null
+                          ? "Checking"
+                          : installed
+                            ? "Installed"
+                            : "Not installed"}
                       </span>
                     </div>
                     <h3 className="mt-5 text-2xl font-medium text-white">
@@ -255,9 +262,11 @@ export function OnboardingWorkspace() {
               value={
                 connectedPublicKey
                   ? "Connected"
-                  : isInstalled
-                    ? "Ready to connect"
-                    : "Extension missing"
+                  : isInstalled === null
+                    ? "Checking extension"
+                    : isInstalled
+                      ? "Ready to connect"
+                      : "Extension missing"
               }
             />
             <MetricRow

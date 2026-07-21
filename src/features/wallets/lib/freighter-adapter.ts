@@ -2,6 +2,7 @@
 
 import {
   getNetworkDetails,
+  isConnected,
   requestAccess,
   signTransaction as freighterSignTransaction,
 } from "@stellar/freighter-api";
@@ -20,11 +21,8 @@ function assertFreighterError(message: string) {
 export const freighterAdapter: WalletAdapter = {
   provider: "freighter",
   async isInstalled() {
-    if (typeof window === "undefined") {
-      return false;
-    }
-
-    return Boolean((window as Window & { freighter?: unknown }).freighter);
+    const connected = await isConnected();
+    return !connected.error && Boolean(connected.isConnected);
   },
   async connect() {
     if (!(await this.isInstalled())) {
