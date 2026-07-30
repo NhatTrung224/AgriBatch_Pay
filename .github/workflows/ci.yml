@@ -7,6 +7,28 @@ on:
   pull_request:
 
 jobs:
+  contracts:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+          targets: wasm32-unknown-unknown
+
+      - name: Lint contracts
+        run: cargo clippy --manifest-path contracts/Cargo.toml
+
+      - name: Test contracts
+        run: cargo test --manifest-path contracts/Cargo.toml
+
+      - name: Build contract Wasm
+        run: cargo build --manifest-path contracts/Cargo.toml --target wasm32-unknown-unknown --release
+
   validate:
     runs-on: ubuntu-latest
 
