@@ -13,7 +13,13 @@ import {
   createBatchSchema,
   fundVaultSchema,
 } from "@/lib/validation/batches";
-import { canAddFarmerLot, canApproveSettlement, canConfirmQuality, canFundVault } from "@/features/batches/workflow";
+import {
+  canAddFarmerLot,
+  canApproveSettlement,
+  canConfirmQuality,
+  canFundVault,
+  furthestStatus,
+} from "@/features/batches/workflow";
 import type { AppEventType, BatchStatus } from "@/types/domain";
 
 type CreateBatchInput = Parameters<typeof createBatchSchema.parse>[0];
@@ -66,29 +72,6 @@ async function logWalletInteraction(args: {
     success: args.success,
     txHash: args.txHash ?? null,
   });
-}
-
-/**
- * How far a batch has travelled. Recalculating after a lot was added used to write
- * "LOTS_ADDED" unconditionally, so a batch that had already registered its vault
- * silently walked backwards and lost that fact.
- */
-const STATUS_ORDER: BatchStatus[] = [
-  "CREATED",
-  "LOTS_ADDED",
-  "VAULT_REGISTERED",
-  "FUNDED",
-  "QUALITY_CONFIRMED",
-  "SETTLEMENT_APPROVED",
-  "SETTLED",
-];
-
-function furthestStatus(current: BatchStatus, next: BatchStatus) {
-  if (current === "FAILED" || next === "FAILED") {
-    return next;
-  }
-
-  return STATUS_ORDER.indexOf(next) >= STATUS_ORDER.indexOf(current) ? next : current;
 }
 
 async function recalculateBatch(batchId: string, status?: BatchStatus) {
