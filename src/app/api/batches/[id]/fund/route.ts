@@ -1,4 +1,5 @@
 import { fundBatch } from "@/features/batches/server";
+import { apiError } from "@/lib/api-error";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,7 +14,6 @@ export async function POST(
     const detail = await fundBatch(id, payload);
     return Response.json(detail);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Unable to fund batch.";
-    return Response.json({ error: message }, { status: 400 });
+    return apiError(error, "Unable to fund batch.");
   }
 }

@@ -1,4 +1,5 @@
 import { approveSettlement } from "@/features/batches/server";
+import { apiError } from "@/lib/api-error";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,8 +14,6 @@ export async function POST(
     const detail = await approveSettlement(id, payload);
     return Response.json(detail);
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unable to approve settlement.";
-    return Response.json({ error: message }, { status: 400 });
+    return apiError(error, "Unable to approve settlement.");
   }
 }

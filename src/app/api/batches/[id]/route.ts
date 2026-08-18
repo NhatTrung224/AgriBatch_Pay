@@ -1,4 +1,5 @@
 import { getBatchDetail } from "@/features/batches/server";
+import { apiError } from "@/lib/api-error";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,7 +13,6 @@ export async function GET(
     const detail = await getBatchDetail(id);
     return Response.json(detail);
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Batch not found.";
-    return Response.json({ error: message }, { status: 404 });
+    return apiError(error, "Batch not found.");
   }
 }

@@ -1,4 +1,5 @@
 import { confirmBatchQuality } from "@/features/batches/server";
+import { apiError } from "@/lib/api-error";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -20,8 +21,6 @@ export async function POST(
     const detail = await confirmBatchQuality(id, payload);
     return Response.json(detail);
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Unable to confirm quality.";
-    return Response.json({ error: message }, { status: 400 });
+    return apiError(error, "Unable to confirm quality.");
   }
 }

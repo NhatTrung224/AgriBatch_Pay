@@ -1,4 +1,5 @@
 import { desc, eq, gt } from "drizzle-orm";
+import { ApiError } from "@/lib/api-error";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 
@@ -141,7 +142,7 @@ export async function getBatchDetail(batchId: string) {
   ]);
 
   if (!batch) {
-    throw new Error(`Batch ${batchId} was not found.`);
+    throw new ApiError(`Batch ${batchId} was not found.`, 404);
   }
 
   return { batch, events, lots };
@@ -209,11 +210,11 @@ export async function addFarmerLot(batchId: string, input: AddFarmerLotInput) {
   });
 
   if (!batch) {
-    throw new Error(`Batch ${batchId} was not found.`);
+    throw new ApiError(`Batch ${batchId} was not found.`, 404);
   }
 
   if (!canAddFarmerLot(batch.status)) {
-    throw new Error("Cannot add a farmer lot after the batch is settled.");
+    throw new ApiError("Cannot add a farmer lot after the batch is settled.");
   }
 
   const payoutAmount = calculateLotPayout(
@@ -261,7 +262,7 @@ export async function confirmBatchQuality(batchId: string, input?: ConfirmQualit
   });
 
   if (!batch) {
-    throw new Error(`Batch ${batchId} was not found.`);
+    throw new ApiError(`Batch ${batchId} was not found.`, 404);
   }
 
   const lots = await db.query.farmerLots.findMany({
@@ -271,11 +272,11 @@ export async function confirmBatchQuality(batchId: string, input?: ConfirmQualit
   // Funding and settlement both refuse a wallet that is not the one on the batch;
   // quality confirmation did not, even though it is the gate those two wait on.
   if (parsed.publicKey && batch.cooperativeWallet !== parsed.publicKey) {
-    throw new Error("Quality must be confirmed by the cooperative wallet on the batch.");
+    throw new ApiError("Quality must be confirmed by the cooperative wallet on the batch.");
   }
 
   if (!canConfirmQuality({ hasLots: lots.length > 0, status: batch.status })) {
-    throw new Error(
+    throw new ApiError(
       lots.length
         ? "Batch quality is already confirmed or the batch is settled."
         : "Cannot confirm quality before at least one farmer lot exists.",
@@ -324,11 +325,11 @@ export async function fundBatch(batchId: string, input: FundVaultInput) {
   });
 
   if (!batch) {
-    throw new Error(`Batch ${batchId} was not found.`);
+    throw new ApiError(`Batch ${batchId} was not found.`, 404);
   }
 
   if (!canFundVault({ status: batch.status, totalAmount: batch.totalAmount })) {
-    throw new Error(
+    throw new ApiError(
       batch.totalAmount <= 0
         ? "Batch total payout must be greater than zero before funding."
         : "Batch is already funded or settled.",
@@ -336,7 +337,7 @@ export async function fundBatch(batchId: string, input: FundVaultInput) {
   }
 
   if (batch.buyerWallet !== parsed.publicKey) {
-    throw new Error("Funding wallet must match the buyer wallet configured on the batch.");
+    throw new ApiError("Funding wallet must match the buyer wallet configured on the batch.");
   }
 
   await db.update(batches).set({
@@ -380,7 +381,7 @@ export async function approveSettlement(batchId: string, input: ApproveSettlemen
   );
 
   if (detail.batch.buyerWallet !== parsed.publicKey) {
-    throw new Error("Settlement approval must be signed by the configured buyer wallet.");
+    throw new ApiError("Settlement approval must be signed by the configured buyer wallet.");
   }
 
   if (!canApproveSettlement({
@@ -390,7 +391,7 @@ export async function approveSettlement(batchId: string, input: ApproveSettlemen
     status: detail.batch.status,
     totalAmount: detail.batch.totalAmount,
   })) {
-    throw new Error("Batch must have lots, funding, and quality confirmation before settlement.");
+    throw new ApiError("Batch must have lots, funding, and quality confirmation before settlement.");
   }
 
   await db.update(batches).set({
