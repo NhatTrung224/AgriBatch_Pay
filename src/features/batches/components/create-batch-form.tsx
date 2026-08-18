@@ -1,5 +1,6 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarBlank, FloppyDisk } from "@phosphor-icons/react";
 import type { Route } from "next";
 import { useRouter } from "next/navigation";
@@ -46,6 +47,10 @@ export function CreateBatchForm() {
   const canSyncToSoroban = Boolean(registryContractId && payoutVaultContractId);
   const [syncWithSoroban, setSyncWithSoroban] = useState(canSyncToSoroban);
   const form = useForm<CreateBatchValues>({
+    // The schema was already imported to build the request body, but nothing ran
+    // it before submitting: a bad wallet or a same-wallet batch only came back as
+    // a toast from the server, with no way to see which field caused it.
+    resolver: zodResolver(createBatchSchema),
     defaultValues: {
       assetCode: "USDC",
       assetContractAddress: "",
@@ -159,38 +164,38 @@ export function CreateBatchForm() {
         className="mt-8 grid gap-6 xl:grid-cols-[1.2fr_0.8fr]"
       >
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Crop type">
+          <Field error={form.formState.errors.cropType?.message} label="Crop type">
             <input {...form.register("cropType")} className={inputClassName} />
           </Field>
-          <Field label="Season">
+          <Field error={form.formState.errors.season?.message} label="Season">
             <input {...form.register("season")} className={inputClassName} />
           </Field>
-          <Field label="Location">
+          <Field error={form.formState.errors.location?.message} label="Location">
             <input {...form.register("location")} className={inputClassName} />
           </Field>
-          <Field label="Asset">
+          <Field error={form.formState.errors.assetCode?.message} label="Asset">
             <input {...form.register("assetCode")} className={inputClassName} />
           </Field>
-          <Field label="Asset contract address (optional)">
+          <Field error={form.formState.errors.assetContractAddress?.message} label="Asset contract address (optional)">
             <input
               {...form.register("assetContractAddress")}
               className={inputClassName}
               placeholder="Optional SAC or asset contract reference"
             />
           </Field>
-          <Field label="Buyer wallet">
+          <Field error={form.formState.errors.buyerWallet?.message} label="Buyer wallet">
             <input {...form.register("buyerWallet")} className={inputClassName} />
           </Field>
-          <Field label="Cooperative wallet">
+          <Field error={form.formState.errors.cooperativeWallet?.message} label="Cooperative wallet">
             <input
               {...form.register("cooperativeWallet")}
               className={inputClassName}
             />
           </Field>
-          <Field label="Batch ID (optional)">
+          <Field error={form.formState.errors.batchId?.message} label="Batch ID (optional)">
             <input {...form.register("batchId")} className={inputClassName} />
           </Field>
-          <Field label="Expected payout date">
+          <Field error={form.formState.errors.expectedPayoutDate?.message} label="Expected payout date">
             <div className="relative">
               <CalendarBlank
                 size={18}
@@ -286,9 +291,11 @@ export function CreateBatchForm() {
 
 function Field({
   children,
+  error,
   label,
 }: {
   children: React.ReactNode;
+  error?: string;
   label: string;
 }) {
   return (
@@ -297,6 +304,11 @@ function Field({
         {label}
       </span>
       {children}
+      {error ? (
+        <span className="block text-xs text-rose-300" role="alert">
+          {error}
+        </span>
+      ) : null}
     </label>
   );
 }
