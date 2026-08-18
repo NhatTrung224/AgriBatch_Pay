@@ -80,6 +80,9 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
     totalAmount: detail.batch.totalAmount,
   });
 
+  // One action at a time. Each button used to guard only its own name, so a
+  // second write could be fired against the same batch while the first was still
+  // in flight — and both of these move money.
   async function postJson<TBody>(path: string, action: string, body?: TBody) {
     try {
       setBusyAction(action);
@@ -366,7 +369,7 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               <div className="flex items-end">
                 <Button
                   type="submit"
-                  disabled={!workflow.canAddLot || busyAction === "add_lot"}
+                  disabled={!workflow.canAddLot || busyAction !== null}
                   className="w-full"
                 >
                   <UsersThree size={18} className="mr-2" />
@@ -433,7 +436,7 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               <Button
                 type="submit"
                 variant="secondary"
-                disabled={!workflow.canConfirm || busyAction === "confirm_quality"}
+                disabled={!workflow.canConfirm || busyAction !== null}
               >
                 <ShieldCheck size={18} className="mr-2" />
                 {busyAction === "confirm_quality" ? "Confirming..." : "Confirm quality"}
@@ -486,7 +489,7 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               </Field>
               <Button
                 type="submit"
-                disabled={!workflow.canFund || busyAction === "fund_vault"}
+                disabled={!workflow.canFund || busyAction !== null}
                 className="w-full"
               >
                 <Coins size={18} className="mr-2" />
@@ -541,7 +544,7 @@ export function BatchDetailWorkspace({ detail }: BatchDetailWorkspaceProps) {
               </Field>
               <Button
                 type="submit"
-                disabled={!workflow.canApprove || busyAction === "approve_settlement"}
+                disabled={!workflow.canApprove || busyAction !== null}
                 className="w-full"
               >
                 <CheckCircle size={18} className="mr-2" />
