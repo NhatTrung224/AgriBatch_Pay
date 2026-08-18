@@ -50,8 +50,12 @@ export function BatchesDirectory({ items }: BatchesDirectoryProps) {
         </div>
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_auto]">
+          {/* The only thing inside this label was a decorative icon, so the field's
+              accessible name came from the placeholder — which disappears as soon
+              as anyone types into it. */}
           <label className="flex h-12 items-center gap-3 rounded-full border border-white/10 bg-white/4 px-4">
-            <MagnifyingGlass size={18} className="text-slate-500" />
+            <MagnifyingGlass aria-hidden="true" size={18} className="text-slate-500" />
+            <span className="sr-only">Search crop batches</span>
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
@@ -159,6 +163,9 @@ function FilterButton({
     <button
       type="button"
       onClick={onClick}
+      // Which filter is on was said in cyan and nothing else: no state for a
+      // screen reader, and nothing for anyone who cannot separate the two greys.
+      aria-pressed={active}
       className={`rounded-full border px-4 py-2 text-xs uppercase tracking-[0.18em] transition ${
         active
           ? "border-cyan-300/20 bg-cyan-300/10 text-cyan-100"
