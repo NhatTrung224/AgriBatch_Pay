@@ -8,6 +8,13 @@
       "when": 1782538094074,
       "tag": "0000_conscious_archangel",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1787027227683,
+      "tag": "0001_daily_black_knight",
+      "breakpoints": true
     }
   ]
 }

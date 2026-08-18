@@ -1,6 +1,7 @@
 import {
   boolean,
   doublePrecision,
+  index,
   integer,
   jsonb,
   pgEnum,
@@ -36,7 +37,10 @@ export const batches = pgTable("batches", {
   totalAmount: doublePrecision("total_amount").default(0).notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
   vaultContractAddress: text("vault_contract_address"),
-});
+}, (table) => [
+  // The directory orders by this column on every page load.
+  index("batches_updated_at_idx").on(table.updatedAt),
+]);
 
 export const farmerLots = pgTable("farmer_lots", {
   batchId: text("batch_id")
@@ -52,7 +56,10 @@ export const farmerLots = pgTable("farmer_lots", {
   payoutTxHash: text("payout_tx_hash"),
   pricePerKg: doublePrecision("price_per_kg").notNull(),
   weightKg: doublePrecision("weight_kg").notNull(),
-});
+}, (table) => [
+  // Every batch read, and every recalculation of the payout total, filters here.
+  index("farmer_lots_batch_id_idx").on(table.batchId),
+]);
 
 export const walletInteractions = pgTable("wallet_interactions", {
   action: text("action").notNull(),
@@ -65,7 +72,10 @@ export const walletInteractions = pgTable("wallet_interactions", {
   role: userRoleEnum("role").notNull(),
   success: boolean("success").default(false).notNull(),
   txHash: text("tx_hash"),
-});
+}, (table) => [
+  // The live stream polls "newer than" every three seconds, per open connection.
+  index("wallet_interactions_created_at_idx").on(table.createdAt),
+]);
 
 export const appEvents = pgTable("app_events", {
   batchId: text("batch_id").references(() => batches.id, { onDelete: "set null" }),
@@ -75,7 +85,10 @@ export const appEvents = pgTable("app_events", {
   metadata: jsonb("metadata").$type<Record<string, string | number | boolean | null>>(),
   txHash: text("tx_hash"),
   type: appEventTypeEnum("type").notNull(),
-});
+}, (table) => [
+  index("app_events_created_at_idx").on(table.createdAt),
+  index("app_events_batch_id_idx").on(table.batchId),
+]);
 
 export const submissionEvidence = pgTable("submission_evidence", {
   ciStatus: text("ci_status").notNull(),
