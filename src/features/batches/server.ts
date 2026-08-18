@@ -68,15 +68,40 @@ async function logWalletInteraction(args: {
   });
 }
 
+/**
+ * How far a batch has travelled. Recalculating after a lot was added used to write
+ * "LOTS_ADDED" unconditionally, so a batch that had already registered its vault
+ * silently walked backwards and lost that fact.
+ */
+const STATUS_ORDER: BatchStatus[] = [
+  "CREATED",
+  "LOTS_ADDED",
+  "VAULT_REGISTERED",
+  "FUNDED",
+  "QUALITY_CONFIRMED",
+  "SETTLEMENT_APPROVED",
+  "SETTLED",
+];
+
+function furthestStatus(current: BatchStatus, next: BatchStatus) {
+  if (current === "FAILED" || next === "FAILED") {
+    return next;
+  }
+
+  return STATUS_ORDER.indexOf(next) >= STATUS_ORDER.indexOf(current) ? next : current;
+}
+
 async function recalculateBatch(batchId: string, status?: BatchStatus) {
-  const lots = await db.query.farmerLots.findMany({
-    where: eq(farmerLots.batchId, batchId),
-  });
+  const [lots, batch] = await Promise.all([
+    db.query.farmerLots.findMany({ where: eq(farmerLots.batchId, batchId) }),
+    db.query.batches.findFirst({ where: eq(batches.id, batchId) }),
+  ]);
   const totals = summarizeLotTotals(lots);
+  const proposed = status ?? (lots.length ? "LOTS_ADDED" : "CREATED");
 
   await db.update(batches).set({
     farmerCount: lots.length,
-    status: status ?? (lots.length ? "LOTS_ADDED" : "CREATED"),
+    status: batch ? furthestStatus(batch.status, proposed) : proposed,
     totalAmount: totals.totalPayout,
     updatedAt: now(),
   }).where(eq(batches.id, batchId));
