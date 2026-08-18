@@ -162,28 +162,49 @@ export async function getBatchDetail(batchId: string) {
   return { batch, events, lots };
 }
 
+/**
+ * Both ids may be supplied by the caller, so a clash is an ordinary thing to say
+ * back — not an unexplained 500 from a primary key violation deep in the driver.
+ */
+function isUniqueViolation(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    (error as { code?: unknown }).code === "23505"
+  );
+}
+
 export async function createBatch(input: CreateBatchInput) {
   const parsed = createBatchSchema.parse(input);
   const batchId = parsed.batchId || `BATCH-${new Date().getFullYear()}-${nanoid(6).toUpperCase()}`;
 
-  await db.insert(batches).values({
-    assetCode: parsed.assetCode,
-    assetContractAddress: parsed.assetContractAddress || null,
-    buyerWallet: parsed.buyerWallet,
-    cooperativeWallet: parsed.cooperativeWallet,
-    cropType: parsed.cropType,
-    expectedPayoutDate: parsed.expectedPayoutDate ? new Date(parsed.expectedPayoutDate) : null,
-    farmerCount: 0,
-    id: batchId,
-    lastTxHash: parsed.txHash || null,
-    location: parsed.location,
-    registryContractAddress: parsed.registryContractAddress || null,
-    season: parsed.season,
-    status: "CREATED",
-    totalAmount: 0,
-    updatedAt: now(),
-    vaultContractAddress: parsed.vaultContractAddress || null,
-  });
+  try {
+    await db.insert(batches).values({
+      assetCode: parsed.assetCode,
+      assetContractAddress: parsed.assetContractAddress || null,
+      buyerWallet: parsed.buyerWallet,
+      cooperativeWallet: parsed.cooperativeWallet,
+      cropType: parsed.cropType,
+      expectedPayoutDate: parsed.expectedPayoutDate ? new Date(parsed.expectedPayoutDate) : null,
+      farmerCount: 0,
+      id: batchId,
+      lastTxHash: parsed.txHash || null,
+      location: parsed.location,
+      registryContractAddress: parsed.registryContractAddress || null,
+      season: parsed.season,
+      status: "CREATED",
+      totalAmount: 0,
+      updatedAt: now(),
+      vaultContractAddress: parsed.vaultContractAddress || null,
+    });
+  } catch (error) {
+    if (isUniqueViolation(error)) {
+      throw new ApiError(`Batch ${batchId} already exists.`, 409);
+    }
+
+    throw error;
+  }
 
   if (parsed.provider && parsed.txHash) {
     await logWalletInteraction({
@@ -239,18 +260,26 @@ export async function addFarmerLot(batchId: string, input: AddFarmerLotInput) {
     parsed.grade,
   );
 
-  await db.insert(farmerLots).values({
-    batchId,
-    farmerName: parsed.farmerName,
-    farmerWallet: parsed.farmerWallet,
-    grade: parsed.grade,
-    id: parsed.lotId || nanoid(12),
-    paid: false,
-    payoutAmount,
-    payoutTxHash: null,
-    pricePerKg: parsed.pricePerKg,
-    weightKg: parsed.weightKg,
-  });
+  try {
+    await db.insert(farmerLots).values({
+      batchId,
+      farmerName: parsed.farmerName,
+      farmerWallet: parsed.farmerWallet,
+      grade: parsed.grade,
+      id: parsed.lotId || nanoid(12),
+      paid: false,
+      payoutAmount,
+      payoutTxHash: null,
+      pricePerKg: parsed.pricePerKg,
+      weightKg: parsed.weightKg,
+    });
+  } catch (error) {
+    if (isUniqueViolation(error)) {
+      throw new ApiError("A farmer lot with that id already exists.", 409);
+    }
+
+    throw error;
+  }
 
   await recalculateBatch(batchId, "LOTS_ADDED");
   await appendEvent({
