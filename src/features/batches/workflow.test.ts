@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getBatchWorkflowState } from "@/features/batches/workflow";
+import { canAddFarmerLot, getBatchWorkflowState } from "@/features/batches/workflow";
 
 describe("batch workflow guards", () => {
   it("blocks settlement approval before funding and quality confirmation", () => {
@@ -30,5 +30,33 @@ describe("batch workflow guards", () => {
         totalAmount: 6400,
       }).canApprove,
     ).toBe(true);
+  });
+});
+
+describe("lots close before the money moves", () => {
+  it("accepts lots while the batch is still being assembled", () => {
+    expect(canAddFarmerLot("CREATED")).toBe(true);
+    expect(canAddFarmerLot("LOTS_ADDED")).toBe(true);
+    expect(canAddFarmerLot("VAULT_REGISTERED")).toBe(true);
+  });
+
+  it("refuses a lot that would outgrow what the buyer already funded", () => {
+    expect(canAddFarmerLot("FUNDED")).toBe(false);
+    expect(canAddFarmerLot("QUALITY_CONFIRMED")).toBe(false);
+    expect(canAddFarmerLot("SETTLEMENT_APPROVED")).toBe(false);
+    expect(canAddFarmerLot("SETTLED")).toBe(false);
+  });
+
+  it("explains why the lot form is closed", () => {
+    const state = getBatchWorkflowState({
+      hasLots: true,
+      hasQualityConfirmation: false,
+      hasVaultFunding: true,
+      status: "FUNDED",
+      totalAmount: 1000,
+    });
+
+    expect(state.canAddLot).toBe(false);
+    expect(state.reasons.addLot).toMatch(/vault is funded or quality is confirmed/i);
   });
 });
