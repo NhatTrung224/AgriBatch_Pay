@@ -66,6 +66,17 @@ export const createBatchSchema = z.object({
   season: text(2, 40),
   txHash: optionalTxHash,
   vaultContractAddress: z.union([stellarContractId, z.literal("")]).optional(),
+}).superRefine((value, ctx) => {
+  // The buyer funds the vault and the cooperative attests to the crop. One wallet
+  // holding both roles can approve its own quality check and settle against it,
+  // which is the separation this whole workflow exists to enforce.
+  if (value.buyerWallet === value.cooperativeWallet) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "The buyer and cooperative must be different wallets.",
+      path: ["cooperativeWallet"],
+    });
+  }
 });
 
 export const addFarmerLotSchema = z.object({
