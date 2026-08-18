@@ -214,7 +214,9 @@ export async function addFarmerLot(batchId: string, input: AddFarmerLotInput) {
   }
 
   if (!canAddFarmerLot(batch.status)) {
-    throw new ApiError("Cannot add a farmer lot after the batch is settled.");
+    throw new ApiError(
+      "Farmer lots close once the vault is funded or quality is confirmed.",
+    );
   }
 
   const payoutAmount = calculateLotPayout(

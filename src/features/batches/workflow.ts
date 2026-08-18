@@ -8,8 +8,22 @@ type BatchWorkflowInput = {
   totalAmount: number;
 };
 
+/**
+ * Lots may only be added while the batch is still being assembled. Adding one
+ * after the buyer funded the vault raises the total the farmers are owed without
+ * raising what was deposited, and settlement would then approve a payout the
+ * vault cannot cover. Quality confirmation attests to the lots that existed when
+ * it was given, so it closes the list too.
+ */
+const LOTS_CLOSED_AFTER: BatchStatus[] = [
+  "FUNDED",
+  "QUALITY_CONFIRMED",
+  "SETTLEMENT_APPROVED",
+  "SETTLED",
+];
+
 export function canAddFarmerLot(status: BatchStatus) {
-  return status !== "SETTLED";
+  return !LOTS_CLOSED_AFTER.includes(status);
 }
 
 export function canConfirmQuality(input: Pick<BatchWorkflowInput, "hasLots" | "status">) {
@@ -43,7 +57,9 @@ export function getBatchWorkflowState(input: BatchWorkflowInput) {
     canConfirm,
     canFund,
     reasons: {
-      addLot: canAddLot ? null : "Settled batches cannot accept new farmer lots.",
+      addLot: canAddLot
+        ? null
+        : "Farmer lots close once the vault is funded or quality is confirmed.",
       approve: canApprove
         ? null
         : !input.hasLots
