@@ -268,6 +268,12 @@ export async function confirmBatchQuality(batchId: string, input?: ConfirmQualit
     where: eq(farmerLots.batchId, batchId),
   });
 
+  // Funding and settlement both refuse a wallet that is not the one on the batch;
+  // quality confirmation did not, even though it is the gate those two wait on.
+  if (parsed.publicKey && batch.cooperativeWallet !== parsed.publicKey) {
+    throw new Error("Quality must be confirmed by the cooperative wallet on the batch.");
+  }
+
   if (!canConfirmQuality({ hasLots: lots.length > 0, status: batch.status })) {
     throw new Error(
       lots.length
