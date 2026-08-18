@@ -1,4 +1,4 @@
-import { desc, eq, gt } from "drizzle-orm";
+import { asc, desc, eq, gt } from "drizzle-orm";
 import { ApiError } from "@/lib/api-error";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
@@ -108,16 +108,18 @@ export async function listBatches() {
 
 export async function listEventsSince(since?: Date) {
   const [contractEvents, walletEventRows] = await Promise.all([
-    // Polled every three seconds per open stream: without a limit a busy hour
-    // is re-read in full on every reconnect.
+    // Polled every three seconds per open stream, so each read is capped. The
+    // order has to be oldest-first: taking the newest N and then advancing the
+    // watermark past them would skip everything older in the same window, and
+    // those events would never be delivered.
     db.query.appEvents.findMany({
       limit: EVENT_POLL_SIZE,
-      orderBy: desc(appEvents.createdAt),
+      orderBy: since ? asc(appEvents.createdAt) : desc(appEvents.createdAt),
       where: since ? gt(appEvents.createdAt, since) : undefined,
     }),
     db.query.walletInteractions.findMany({
       limit: EVENT_POLL_SIZE,
-      orderBy: desc(walletInteractions.createdAt),
+      orderBy: since ? asc(walletInteractions.createdAt) : desc(walletInteractions.createdAt),
       where: since ? gt(walletInteractions.createdAt, since) : undefined,
     }),
   ]);
