@@ -84,19 +84,31 @@ async function recalculateBatch(batchId: string, status?: BatchStatus) {
   return totals;
 }
 
+/** The directory is a page, not an export. */
+const BATCH_PAGE_SIZE = 200;
+/** A batch accrues history without limit; the detail page shows the recent part. */
+const BATCH_HISTORY_SIZE = 200;
+/** Each poll of the live stream, and every reconnect, reads this much at most. */
+const EVENT_POLL_SIZE = 100;
+
 export async function listBatches() {
   return db.query.batches.findMany({
+    limit: BATCH_PAGE_SIZE,
     orderBy: desc(batches.updatedAt),
   });
 }
 
 export async function listEventsSince(since?: Date) {
   const [contractEvents, walletEventRows] = await Promise.all([
+    // Polled every three seconds per open stream: without a limit a busy hour
+    // is re-read in full on every reconnect.
     db.query.appEvents.findMany({
+      limit: EVENT_POLL_SIZE,
       orderBy: desc(appEvents.createdAt),
       where: since ? gt(appEvents.createdAt, since) : undefined,
     }),
     db.query.walletInteractions.findMany({
+      limit: EVENT_POLL_SIZE,
       orderBy: desc(walletInteractions.createdAt),
       where: since ? gt(walletInteractions.createdAt, since) : undefined,
     }),
@@ -132,10 +144,12 @@ export async function getBatchDetail(batchId: string) {
       where: eq(batches.id, batchId),
     }),
     db.query.farmerLots.findMany({
+      limit: BATCH_HISTORY_SIZE,
       orderBy: desc(farmerLots.createdAt),
       where: eq(farmerLots.batchId, batchId),
     }),
     db.query.appEvents.findMany({
+      limit: BATCH_HISTORY_SIZE,
       orderBy: desc(appEvents.createdAt),
       where: eq(appEvents.batchId, batchId),
     }),
