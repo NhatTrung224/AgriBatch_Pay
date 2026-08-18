@@ -14,16 +14,29 @@ export async function GET(request: Request) {
     async start(controller) {
       let latestSeen = new Date(Date.now() - 1000 * 60 * 60);
 
+      let closed = false;
+
+      // The pump runs on a timer for the life of the connection. A single failed
+      // query used to escape as an unhandled rejection — and repeat every three
+      // seconds — which in Node 24 takes the whole server down rather than the
+      // one stream. Enqueueing after the stream closes throws for the same reason.
       const pump = async () => {
-        const items = await listEventsSince(latestSeen);
-        const nextItems = [...items].reverse();
+        if (closed) return;
 
-        for (const item of nextItems) {
-          if (item.createdAt > latestSeen) {
-            latestSeen = item.createdAt;
+        try {
+          const items = await listEventsSince(latestSeen);
+          const nextItems = [...items].reverse();
+
+          for (const item of nextItems) {
+            if (item.createdAt > latestSeen) {
+              latestSeen = item.createdAt;
+            }
+
+            if (closed) return;
+            controller.enqueue(encodeSse("app_event", item));
           }
-
-          controller.enqueue(encodeSse("app_event", item));
+        } catch (error) {
+          console.error("[events] unable to read the event log", error);
         }
       };
 
@@ -40,10 +53,13 @@ export async function GET(request: Request) {
         void pump();
       }, 3000);
       const heartbeatInterval = setInterval(() => {
+        if (closed) return;
         controller.enqueue(encoder.encode(": keepalive\n\n"));
       }, 15000);
 
       const cleanup = () => {
+        if (closed) return;
+        closed = true;
         clearInterval(eventInterval);
         clearInterval(heartbeatInterval);
         controller.close();
