@@ -86,3 +86,17 @@ describe("fundVaultSchema", () => {
     expect(() => fundVaultSchema.parse({ provider: "freighter", publicKey: "nope" })).toThrow();
   });
 });
+
+describe("separation of duties", () => {
+  it("refuses one wallet holding both sides of the batch", () => {
+    expect(() =>
+      createBatchSchema.parse(batchInput({ cooperativeWallet: buyer })),
+    ).toThrow("The buyer and cooperative must be different wallets.");
+  });
+
+  it("accepts two distinct wallets", () => {
+    const parsed = createBatchSchema.parse(batchInput());
+
+    expect(parsed.buyerWallet).not.toBe(parsed.cooperativeWallet);
+  });
+});
