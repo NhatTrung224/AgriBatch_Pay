@@ -40,7 +40,7 @@ This repository now includes:
 - Demo video: https://raw.githubusercontent.com/NhatTrung224/AgriBatch_Pay/main/public/submission/level5-demo.mp4
 - User feedback audit: `npm run feedback:audit`
 - Demo walkthrough script: https://agribatchpay-production.up.railway.app/submission/demo-video-script.html
-- Healthcheck: https://agribatchpay-production.up.railway.app/api/health
+- Healthcheck: https://agribatchpay-production.up.railway.app/api/health/live
 
 ## Testnet Contract Targets
 
@@ -73,7 +73,7 @@ This repository now includes:
 | Wallets | Freighter and Rabet adapters |
 | Testing | Vitest + Testing Library |
 | CI/CD | GitHub Actions + Railway Docker deploy |
-| Runtime health | `/api/health` + Docker healthcheck |
+| Runtime health | `/api/health` (database readiness) + `/api/health/live` (deployment liveness) |
 
 ## Architecture Summary
 
@@ -232,6 +232,7 @@ npm run submission:audit-proof
 Core internal endpoints:
 
 - `GET /api/health`
+- `GET /api/health/live`
 - `GET /api/events`
 - `GET /api/batches`
 - `POST /api/batches`
@@ -256,7 +257,7 @@ Railway deployment notes:
 - The app is deployed from the repository Dockerfile.
 - Build-time env loading is deferred so Railway can build without a runtime `DATABASE_URL`.
 - Runtime database access still requires `DATABASE_URL`.
-- Healthcheck path is `/api/health`.
+- Railway healthcheck path is `/api/health/live`; `/api/health` remains the database readiness endpoint.
 
 ## Verification Snapshot
 
@@ -270,7 +271,7 @@ Most recent local verification on this codebase:
 - `npm run lint` -> passing
 - `npm run typecheck` -> passing
 - `npm run build` -> passing
-- Standalone runtime healthcheck -> `GET /api/health` returned `status: ok`
+- Standalone deployment healthcheck -> `GET /api/health/live` returns `status: ok`
 
 ## Design References
 
