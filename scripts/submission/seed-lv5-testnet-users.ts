@@ -58,7 +58,7 @@ async function main() {
       )
       values (
         ${`lv5-user-${DAY}-${index + 1}`},
-        'friendbot_funded_testnet_user',
+        'friendbot_funded_testnet_account',
         null,
         now() - (${`${USER_COUNT - index} minutes`}::interval),
         null,
@@ -82,7 +82,7 @@ async function main() {
         ${`lv5-event-${DAY}-${index + 1}`},
         null,
         now() - (${`${USER_COUNT - index} minutes`}::interval),
-        ${`Testnet user ${wallet.alias} funded and connected.`},
+        ${`Testnet account ${wallet.alias} funded and connected.`},
         ${sql.json({ alias: wallet.alias, publicKey: wallet.publicKey, provider })},
         ${wallet.txHash},
         'wallet_connected'
@@ -103,10 +103,10 @@ async function main() {
         "Mobile responsive UI",
         "CI/CD running",
         "Test output with 6 passing tests",
-        "Submission page showing 50+ funded testnet users",
+        "Submission page showing 50+ funded testnet accounts",
         "Wallet and transaction activity from Stellar testnet",
       ])},
-      test_output_summary = 'Vitest: 6 tests passed locally on 2026-07-08. Repository has 42+ meaningful commits and 57 distinct interacted Stellar testnet wallets recorded.',
+      test_output_summary = 'Run the current CI workflow and submission audit before publishing a new verification snapshot.',
       readme_status = 'Ready for Level 5 checklist',
       ci_status = 'Ready',
       railway_status = 'Configured',

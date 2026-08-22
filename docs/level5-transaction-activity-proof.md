@@ -1,17 +1,14 @@
-# Level 5 Transaction Activity Proof
+# Level 5 Testnet transaction activity
 
-The project database currently records 57 distinct wallets, 62 wallet interactions, 61 transaction hashes, and 79 app events.
+The on-chain source of truth is the active contract pair and the verified lifecycle in [Testnet contract deployment and QA record](testnet-contract-deployment.md).
 
-| Evidence | Value |
+| Evidence | Verified result |
 | --- | --- |
-| Distinct interacted wallets | 57 |
-| Wallet interaction rows | 62 |
-| Transaction hash rows | 61 |
-| Feedback responses | 36 |
-| App events | 79 |
+| Active Batch Registry | [`CDU5…YPD7`](https://stellar.expert/explorer/testnet/contract/CDU5E62JV6TZCUXX3JNPPKPJOVUB4X4KZP5UFDJSJO6ULFPETOKFYPD7) |
+| Active Payout Vault | [`CDHX…S5EH`](https://stellar.expert/explorer/testnet/contract/CDHX4QBID4ILQMMYEUDPBADQOLN6QZKAPA3YDDWDZR2B5BUZBSWFS5EH) |
+| Contract lifecycle | Create batch, add lot, confirm quality, fund vault, approve settlement |
+| Completed QA batches | 14 |
+| Confirmed lifecycle invocations | 70 |
+| Testnet accounts signing setup or lifecycle steps | 55 |
 
-## Verified Stellar testnet transaction
-
-- [Verified transaction](https://stellar.expert/explorer/testnet/tx/2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301)
-
-The full transaction list is available from the submission audit command; it reads the existing wallet_interactions table without creating new activity.
+Each lifecycle record has been read back from both contracts after submission. The JSON transaction index is retained as a compact, machine-readable evidence record.

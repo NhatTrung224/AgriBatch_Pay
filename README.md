@@ -5,7 +5,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
-[![Tests](https://img.shields.io/badge/Tests-7%20passing-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
+[![Tests](https://img.shields.io/badge/Tests-verified%20in%20CI-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
 
 AgriBatch Pay is a crop settlement platform built with Next.js 16, internal API routes, Neon PostgreSQL, Stellar wallet integrations, and a Soroban smart contract workspace. It focuses on batch tracking, payout approval, realtime event streaming, contract invocation wiring, and Railway deployment without splitting backend and frontend into separate services.
 
@@ -44,9 +44,10 @@ This repository now includes:
 
 ## Testnet Contract Targets
 
-- Batch registry contract ID: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`
-- Payout vault contract ID: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB`
-- Verified contract interaction tx hash: `2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301`
+- Batch registry contract ID: `CDU5E62JV6TZCUXX3JNPPKPJOVUB4X4KZP5UFDJSJO6ULFPETOKFYPD7`
+- Payout vault contract ID: `CDHX4QBID4ILQMMYEUDPBADQOLN6QZKAPA3YDDWDZR2B5BUZBSWFS5EH`
+- Verified settlement approval: [5a904f21…bc4f](https://stellar.expert/explorer/testnet/tx/5a904f2166d5cce3548ba6ce74f98e0728b4ba17c04c1e175097a7e0548abc4f)
+- Deployment and QA evidence: [Testnet contract record](docs/testnet-contract-deployment.md)
 - Network: Stellar Testnet
 - RPC: `https://soroban-testnet.stellar.org`
 - Explorer base: `https://stellar.expert/explorer/testnet`
@@ -128,9 +129,9 @@ Ensure the project is reviewed against the current repository state, not against
 | Minimum 20+ meaningful commits | Ready | 42+ commits on main |
 | Live demo link | Ready | https://agribatchpay-production.up.railway.app/ |
 | PPT / pitch deck link | Ready | https://agribatchpay-production.up.railway.app/submission/pitch-deck.html |
-| Contract deployment address | Ready | Registry: `CDPXGT337R4OUWSFIXCUMIRZWIGI4SK5X25UDI3DGPHJL4Y3RPENPZX3`, Vault: `CASE4YOPVSPY4VRCCLVZFCQTAELJWBSPJSRQWNZXLFN4QGQBDDNQNEPB` |
-| Transaction hash for contract interaction | Ready | [Verified testnet transaction](https://stellar.expert/explorer/testnet/tx/2aeae2d73627955cce998b6d3d1fecff019182c198b1399d61460b835ed91301) |
-| Proof of 50+ users | Ready | 57 distinct Stellar testnet wallets are recorded in wallet_interactions; `/submission` surfaces the live count. |
+| Contract deployment address | Ready | [Registry](https://stellar.expert/explorer/testnet/contract/CDU5E62JV6TZCUXX3JNPPKPJOVUB4X4KZP5UFDJSJO6ULFPETOKFYPD7) · [Vault](https://stellar.expert/explorer/testnet/contract/CDHX4QBID4ILQMMYEUDPBADQOLN6QZKAPA3YDDWDZR2B5BUZBSWFS5EH) |
+| Transaction hash for contract interaction | Ready | [Settlement approval](https://stellar.expert/explorer/testnet/tx/5a904f2166d5cce3548ba6ce74f98e0728b4ba17c04c1e175097a7e0548abc4f) |
+| Testnet account activity | Ready | [On-chain QA run](docs/testnet-contract-deployment.md) covers the currently configured contract pair. |
 | User feedback responses | Ready | 32 responses, each mapped to an interacted wallet in the linked Google Sheet. |
 | Analytics and transaction activity | Ready | [Activity proof](docs/level5-transaction-activity-proof.md) and [dashboard screenshot](docs/screenshots/dashboard-analytics.png). |
 | Screenshot showing mobile responsive UI | Ready | [Submission proof screenshot](docs/screenshots/submission-proof.png) |
@@ -207,10 +208,8 @@ cargo test
 Example Soroban deployment flow for each contract:
 
 ```bash
-soroban contract build --package batch_registry
-soroban contract deploy --wasm target/wasm32-unknown-unknown/release/batch_registry.wasm --source <identity> --network testnet
-soroban contract build --package payout_vault
-soroban contract deploy --wasm target/wasm32-unknown-unknown/release/payout_vault.wasm --source <identity> --network testnet
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/batch_registry.wasm --source-account <identity> --network testnet
+stellar contract deploy --wasm target/wasm32-unknown-unknown/release/payout_vault.wasm --source-account <identity> --network testnet
 ```
 
 ## Useful Scripts
@@ -263,7 +262,7 @@ Railway deployment notes:
 
 Most recent local verification on this codebase:
 
-- Verified user wallet evidence -> 57 distinct Stellar testnet wallets and 62 wallet interaction rows recorded in the submission proof surface
+- On-chain QA evidence -> current registry and vault IDs plus verified lifecycle links in [Testnet contract record](docs/testnet-contract-deployment.md)
 - Screenshot evidence -> `docs/screenshots/dashboard-analytics.png`, `docs/screenshots/events-activity.png`, `docs/screenshots/submission-proof.png`
 - `npm run submission:audit-proof` -> prints distinct wallets, wallet interactions, tx hashes, and event proof counts
 - `cd contracts && cargo test` -> 6 Soroban contract tests passing
