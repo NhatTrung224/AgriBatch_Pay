@@ -7,6 +7,10 @@ coverage
 node_modules
 npm-debug.log*
 test-results
+# The documentation site is a separate npm project published to GitHub Pages.
+# The application image has no use for it, and copying it in only risks the
+# app build tripping over a toolchain that is not installed here.
+docs-site
 .env
 .env.local
 .env.development
