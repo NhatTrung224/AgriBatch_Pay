@@ -23,6 +23,11 @@
 /contracts/target
 /contracts/**/test_snapshots
 
+# documentation site (its own npm project, so the root /node_modules rule misses it)
+/docs-site/node_modules
+/docs-site/dist
+/docs-site/.astro
+
 # misc
 .DS_Store
 *.pem

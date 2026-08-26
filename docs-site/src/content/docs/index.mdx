@@ -1,0 +1,71 @@
+---
+title: AgriBatch Pay
+description: Settling one crop harvest across many smallholder farmers, with a record on Stellar testnet that every party can read.
+template: splash
+hero:
+  tagline: A buyer pays once for a harvest. Forty farmers contributed to it. Who gets what, and can anyone check?
+  actions:
+    - text: Start with the problem
+      link: overview/problem/
+      icon: right-arrow
+      variant: primary
+    - text: Open the live demo
+      link: https://agribatchpay-production.up.railway.app/
+      icon: external
+      variant: minimal
+    - text: Read the contracts
+      link: internals/contracts/
+      icon: document
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard, Aside } from '@astrojs/starlight/components';
+
+## What this is
+
+AgriBatch Pay tracks a **batch** — one crop, one season, one buyer — and the **farmer lots** inside it. Each lot records a farmer, a weight, a price and a grade. The platform totals them, records quality confirmation, and records the buyer funding and approving the settlement.
+
+Every one of those steps is written twice: once to PostgreSQL, so the platform is usable, and once to a Soroban contract on Stellar testnet, so the record is not the platform's to rewrite.
+
+<CardGrid stagger>
+  <Card title="Built for the many-to-one case" icon="seti:folder">
+    A coffee container is not one seller's crop. It is forty growers' sacks, weighed separately, graded separately, and paid from one wire. AgriBatch Pay keeps the lots separate all the way through settlement.
+  </Card>
+  <Card title="The arithmetic is on chain" icon="approve-check">
+    Lot totals are summed by the contract, not by the app. A farmer checking their share is reading the same number the buyer approved against.
+  </Card>
+  <Card title="Live event stream" icon="rocket">
+    Batch creation, lot registration, quality confirmation, funding and approval all push to a server-sent event stream, so a cooperative watching a settlement sees it move.
+  </Card>
+  <Card title="Two contracts, two jobs" icon="puzzle">
+    A batch registry that owns the harvest record, and a payout vault that owns the money side. Separated so neither has to trust the other's storage.
+  </Card>
+</CardGrid>
+
+<Aside type="caution" title="Read this before anything else">
+These contracts **record**; they do not **hold**. Neither `batch_registry` nor `payout_vault` transfers a token — there is no `token::Client` in either. `fund_vault` writes an attestation that the buyer funded, and `approve_settlement` writes that they approved.
+
+So this is a tamper-evident audit trail for a settlement, not custody of the settlement. Read [what it does and does not do](/AgriBatch_Pay/overview/scope/) before you plan anything around it.
+</Aside>
+
+## Find your way
+
+<CardGrid>
+  <LinkCard title="The settlement problem" href="/AgriBatch_Pay/overview/problem/" description="Why paying forty farmers from one wire goes wrong, and what a record would have to prove." />
+  <LinkCard title="How it works" href="/AgriBatch_Pay/overview/how-it-works/" description="Batch, lots, quality, funding, approval — the whole path in one page." />
+  <LinkCard title="Register a batch" href="/AgriBatch_Pay/using/register-a-batch/" description="The task-by-task guide, starting from a connected wallet." />
+  <LinkCard title="Contracts" href="/AgriBatch_Pay/internals/contracts/" description="Every method on both contracts, what it checks and what it does not." />
+  <LinkCard title="Install and run" href="/AgriBatch_Pay/operate/install/" description="Get it running locally against testnet." />
+  <LinkCard title="Testnet evidence" href="/AgriBatch_Pay/evidence/testnet/" description="Deployed contract ids and verified transactions." />
+</CardGrid>
+
+## What is deployed
+
+| | |
+| --- | --- |
+| Network | Stellar **testnet** |
+| Batch registry | `CDU5E62JV6TZCUXX3JNPPKPJOVUB4X4KZP5UFDJSJO6ULFPETOKFYPD7` |
+| Payout vault | `CDHX4QBID4ILQMMYEUDPBADQOLN6QZKAPA3YDDWDZR2B5BUZBSWFS5EH` |
+| Application | [agribatchpay-production.up.railway.app](https://agribatchpay-production.up.railway.app/) |
+| Stack | Next.js 16 · Drizzle · Neon PostgreSQL · Soroban |
+| Wallets | Freighter, Rabet |

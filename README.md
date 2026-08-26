@@ -6,6 +6,22 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-00E599?style=for-the-badge&logo=postgresql&logoColor=white)](https://neon.tech/)
 [![Tests](https://img.shields.io/badge/Tests-verified%20in%20CI-22C55E?style=for-the-badge)](https://github.com/NhatTrung224/AgriBatch_Pay/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/Documentation-website-1F9D55?style=for-the-badge&logo=readthedocs&logoColor=white)](https://nhattrung224.github.io/AgriBatch_Pay/)
+
+> ## 📗 Documentation website
+>
+> ### **https://nhattrung224.github.io/AgriBatch_Pay/**
+>
+> The full documentation — what the platform does, how to use it, how to run it and how it is built — with search and rendered diagrams.
+>
+> | | |
+> | --- | --- |
+> | New here | [The settlement problem](https://nhattrung224.github.io/AgriBatch_Pay/overview/problem/) → [How it works](https://nhattrung224.github.io/AgriBatch_Pay/overview/how-it-works/) |
+> | **Before building on it** | [What it does and does not do](https://nhattrung224.github.io/AgriBatch_Pay/overview/scope/) — the contracts record, they do not hold funds |
+> | Using it | [Register a batch](https://nhattrung224.github.io/AgriBatch_Pay/using/register-a-batch/) · [Add farmer lots](https://nhattrung224.github.io/AgriBatch_Pay/using/farmer-lots/) · [Settlement](https://nhattrung224.github.io/AgriBatch_Pay/using/settlement/) |
+> | Running it | [Install](https://nhattrung224.github.io/AgriBatch_Pay/operate/install/) · [Environment](https://nhattrung224.github.io/AgriBatch_Pay/operate/environment/) · [Deploying](https://nhattrung224.github.io/AgriBatch_Pay/operate/deploy/) |
+> | Internals | [Architecture](https://nhattrung224.github.io/AgriBatch_Pay/internals/architecture/) · [Contracts](https://nhattrung224.github.io/AgriBatch_Pay/internals/contracts/) · [HTTP API](https://nhattrung224.github.io/AgriBatch_Pay/internals/api/) |
+> | Verifying it | [Testnet evidence](https://nhattrung224.github.io/AgriBatch_Pay/evidence/testnet/) |
 
 AgriBatch Pay is a crop settlement platform built with Next.js 16, internal API routes, Neon PostgreSQL, Stellar wallet integrations, and a Soroban smart contract workspace. It focuses on batch tracking, payout approval, realtime event streaming, contract invocation wiring, and Railway deployment without splitting backend and frontend into separate services.
 
@@ -34,6 +50,7 @@ This repository now includes:
 ## Quick Links
 
 - GitHub repository: https://github.com/NhatTrung224/AgriBatch_Pay
+- Documentation website: https://nhattrung224.github.io/AgriBatch_Pay/
 - Live demo: https://agribatchpay-production.up.railway.app/
 - Submission surface: https://agribatchpay-production.up.railway.app/submission
 - Pitch deck: https://agribatchpay-production.up.railway.app/submission/pitch-deck.html

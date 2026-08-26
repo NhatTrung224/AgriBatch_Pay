@@ -1,0 +1,40 @@
+/* AgriBatch Pay — a green accent, because it is about crops. */
+:root {
+  --sl-color-accent-low: #10281a;
+  --sl-color-accent: #1f9d55;
+  --sl-color-accent-high: #a7e8bf;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #e6efe9;
+  --sl-color-gray-2: #c1cfc6;
+  --sl-color-gray-3: #8ba394;
+  --sl-color-gray-4: #55705f;
+  --sl-color-gray-5: #364a3e;
+  --sl-color-gray-6: #24332a;
+  --sl-color-black: #131a15;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #c6ecd5;
+  --sl-color-accent: #17703d;
+  --sl-color-accent-high: #0d3d22;
+  --sl-color-white: #131a15;
+  --sl-color-gray-1: #24332a;
+  --sl-color-gray-2: #364a3e;
+  --sl-color-gray-3: #55705f;
+  --sl-color-gray-4: #8ba394;
+  --sl-color-gray-5: #c1cfc6;
+  --sl-color-gray-6: #e6efe9;
+  --sl-color-gray-7: #f2f7f4;
+  --sl-color-black: #ffffff;
+}
+
+/* Tables carry most of the reference material here, so give them room. */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.sl-markdown-content th {
+  white-space: nowrap;
+}
