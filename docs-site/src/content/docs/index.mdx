@@ -2,6 +2,11 @@
 title: AgriBatch Pay
 description: Settling one crop harvest across many smallholder farmers, with a record on Stellar testnet that every party can read.
 template: splash
+# Starlight appends the site title, so the home tab would otherwise read
+# "AgriBatch Pay | AgriBatch Pay".
+head:
+  - tag: title
+    content: AgriBatch Pay
 hero:
   tagline: A buyer pays once for a harvest. Forty farmers contributed to it. Who gets what, and can anyone check?
   actions:
