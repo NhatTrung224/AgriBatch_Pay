@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The documentation site is a separate npm project with its own toolchain.
+    // Its dependencies live in docs-site/node_modules, which the root install
+    // never creates, so linting it from here only produces resolution errors.
+    "docs-site/**",
   ]),
 ]);
 
